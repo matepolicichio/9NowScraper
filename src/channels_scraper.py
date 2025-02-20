@@ -87,8 +87,8 @@ for channel in channels:
         time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
         time_slot = time_slot_element.text if time_slot_element else "Unknown"
 
-        category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
-        category = category_element.text if category_element else "Unknown"
+        #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
+        #category = category_element.text if category_element else "Unknown"
 
         description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
         description = description_element.text if description_element else "No description available"
@@ -102,7 +102,7 @@ for channel in channels:
             "current_program": {
                 "title": title,
                 "time_slot": time_slot,
-                "category": category,
+                "category": None,
                 "description": description
             }
         })

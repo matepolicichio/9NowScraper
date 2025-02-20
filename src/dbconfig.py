@@ -22,7 +22,7 @@ def get_mongo_db():
 def guardar_documento(documento):
     """Guarda un nuevo documento en la colección 'channels', incluyendo un timestamp."""
     db = get_mongo_db()
-    if db:
+    if db is not None:
         try:
             # Agregar timestamp al documento para diferenciar ejecuciones
             documento["timestamp"] = datetime.now()
