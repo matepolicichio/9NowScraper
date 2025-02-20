@@ -56,9 +56,7 @@ channels_data = []
 # Recorrer cada canal
 for channel in channels:
     try:
-        # Hacer scroll hasta el canal
-        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", channel)
-        time.sleep(1)
+        time.sleep(2)
 
         # Hacer clic en el canal
         channel.click()
@@ -110,10 +108,11 @@ for channel in channels:
     except Exception as e:
         print(f"Error procesando el canal {channel_name}: {e}")
 
-# Guardar el documento completo en MongoDB
-documento = {"channels": channels_data}
-guardar_documento(documento)
-print(f"Se han guardado {len(channels_data)} canales en MongoDB.")
+    # Cerrar Selenium
+    finally:
+        driver.quit()
 
-# Cerrar Selenium
-driver.quit()
+        # Guardar el documento completo en MongoDB
+        documento = {"channels": channels_data}
+        guardar_documento(documento)
+        print(f"Se han guardado {len(channels_data)} canales en MongoDB.")
