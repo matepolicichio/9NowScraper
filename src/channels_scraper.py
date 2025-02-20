@@ -14,7 +14,7 @@ chrome_options = webdriver.ChromeOptions()
 # Configuración avanzada de Chrome
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
+#chrome_options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1366,768")
 chrome_options.add_argument("--ignore-certificate-errors")
@@ -32,14 +32,11 @@ USER_AGENTS = [
 random_user_agent = random.choice(USER_AGENTS)
 chrome_options.add_argument(f"user-agent={random_user_agent}")
 
-# Extra capabilities
-capabilities = DesiredCapabilities.CHROME.copy()
-capabilities["goog:chromeOptions"] = {
-    "excludeSwitches": ["enable-automation"],  # Remueve el mensaje "Chrome está siendo controlado"
-}
+# Eliminar el mensaje "Chrome is being controlled"
+chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
-# Inicializar WebDriver con Selenium Grid
-driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options, desired_capabilities=capabilities)
+# Inicializar WebDriver correctamente (SIN `desired_capabilities`)
+driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
 # URL base
 url_base = "https://www.9now.com.au/live"
