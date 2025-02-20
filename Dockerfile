@@ -52,4 +52,4 @@ USER appuser
 # EXPOSE 8000
 
 # Run the application.
-CMD python src/scraper.py
+CMD python src/channels_scraper.py
