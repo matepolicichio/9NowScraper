@@ -65,10 +65,7 @@ for channel in channels:
         WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
         )
-
-        # Buscar el elemento <a> que contiene la URL del canal
-        link_element = channel.find_element(By.TAG_NAME, "a")
-
+        
         # Extraer URL y nombre del canal
         channel_url = channel.get_attribute("href")
         channel_name = channel_url.split("/live/")[-1] if channel_url else None
