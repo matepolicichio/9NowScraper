@@ -66,6 +66,9 @@ for channel in channels:
             EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
         )
 
+        # Buscar el elemento <a> que contiene la URL del canal
+        link_element = channel.find_element(By.TAG_NAME, "a")
+
         # Extraer URL y nombre del canal
         channel_url = channel.get_attribute("href")
         channel_name = channel_url.split("/live/")[-1] if channel_url else None
@@ -94,7 +97,7 @@ for channel in channels:
         # Agregar canal a la lista
         channels_data.append({
             "name": channel_name,
-            "url": f"https://www.9now.com.au{channel_url}",
+            "url": {channel_url},
             "logo": logo_url,
             "quality": quality,
             "current_program": {
@@ -107,6 +110,7 @@ for channel in channels:
 
     except Exception as e:
         print(f"Error procesando el canal {channel_name}: {e}")
+        continue
 
     # Cerrar Selenium
     finally:
