@@ -68,6 +68,7 @@ try:
             else:
                 try:
                     channel.click
+                    time.sleep(5)
                     # Buscar el enlace dentro del canal
                     #link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
 
