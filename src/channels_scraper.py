@@ -58,7 +58,7 @@ try:
 
     time.sleep(10)
     # Recorrer cada canal
-    for index, channel in enumerate(channels):
+    for channel in channels:
         try:
             # Verificar si el canal ya está seleccionado
             selected_channel = channel.find_element(By.CSS_SELECTOR, ".channel_card.selected")
