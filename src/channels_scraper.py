@@ -61,71 +61,63 @@ try:
     for channel in channels:
         try:
             # Verificar si el canal ya está seleccionado
-            selected_channel = channel.find_element(By.CSS_SELECTOR, ".channel_card.selected")
-            if selected_channel:
-                current_url = driver.current_url
-                print(f"🔹 Canal ya seleccionado. URL actual: {current_url}")
-            else:
-                try:
-                    channel.click
-                    time.sleep(5)
-                    # Buscar el enlace dentro del canal
-                    #link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+            try:
+                selected_channel = WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                )
+                print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
+            except TimeoutException:
+                # Si no está seleccionado, hacer clic en el canal
+                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+                link_element.click()
 
-                    # if link_element:
+                # Esperar hasta que la clase `.selected` aparezca
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                )
+                print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
+        
+                # channel_name = channel_url.split("/live/")[-1] if channel_url else None
 
+                # # Extraer logo
+                # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
+                # logo_url = logo_element.get_attribute("src") if logo_element else None
 
-                    #     link_element.click()  # Hacer clic en el canal
-                        
-                    # Esperar que la URL cambie
-                    WebDriverWait(driver, 5).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-                    )
-                    
-                    # Obtener la nueva URL
-                    new_url = driver.current_url
-                    print(f"✅ Canal cambiado. Nueva URL: {new_url}")
-                    # channel_name = channel_url.split("/live/")[-1] if channel_url else None
+                # # Extraer calidad
+                # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
+                # quality = quality_element.text if quality_element else "Unknown"
 
-                    # # Extraer logo
-                    # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
-                    # logo_url = logo_element.get_attribute("src") if logo_element else None
+                # # Extraer información del programa actual
+                # title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
+                # title = title_element.text if title_element else "Unknown"
 
-                    # # Extraer calidad
-                    # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
-                    # quality = quality_element.text if quality_element else "Unknown"
+                # time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
+                # time_slot = time_slot_element.text if time_slot_element else "Unknown"
 
-                    # # Extraer información del programa actual
-                    # title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
-                    # title = title_element.text if title_element else "Unknown"
+                # #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
+                # #category = category_element.text if category_element else "Unknown"
 
-                    # time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
-                    # time_slot = time_slot_element.text if time_slot_element else "Unknown"
+                # description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
+                # description = description_element.text if description_element else "No description available"
 
-                    # #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
-                    # #category = category_element.text if category_element else "Unknown"
+                # # Agregar canal a la lista
+                # channels_data.append({
+                #     "name": channel_name,
+                #     "url": {channel_url},
+                #     "logo": logo_url,
+                #     "quality": quality,
+                #     "current_program": {
+                #         "title": title,
+                #         "time_slot": time_slot,
+                #         "category": None,
+                #         "description": description
+                #     }
+                # })
 
-                    # description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
-                    # description = description_element.text if description_element else "No description available"
-
-                    # # Agregar canal a la lista
-                    # channels_data.append({
-                    #     "name": channel_name,
-                    #     "url": {channel_url},
-                    #     "logo": logo_url,
-                    #     "quality": quality,
-                    #     "current_program": {
-                    #         "title": title,
-                    #         "time_slot": time_slot,
-                    #         "category": None,
-                    #         "description": description
-                    #     }
-                    # })
-
-                except NoSuchElementException:
-                    print("❌ No se encontró el enlace del canal.")
-                except TimeoutException:
-                    print("⚠️ No se detectó el cambio de canal a tiempo.")
+        except NoSuchElementException:
+            print("❌ No se encontró el enlace del canal.")
+        except TimeoutException:
+            print("⚠️ No se detectó el cambio de canal a tiempo.")
 
         except Exception as e:
             print(f"Error procesando el canal: {e}")
