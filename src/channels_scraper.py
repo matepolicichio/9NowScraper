@@ -61,12 +61,9 @@ try:
     for channel in channels:
         try:
             # Verificar si el canal ya está seleccionado
-            try:
-                selected_channel = WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-                )
+            if "selected" in channel.get_attribute("class"):
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
-            except TimeoutException:
+            else:               
                 # Si no está seleccionado, hacer clic en el canal
                 channel.click
                 print("click!")
