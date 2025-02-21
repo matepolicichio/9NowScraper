@@ -53,67 +53,76 @@ channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card")
 # Lista para almacenar los datos de todos los canales
 channels_data = []
 
+time.sleep(10)
 # Recorrer cada canal
 for channel in channels:
     try:
-        time.sleep(2)
+        time.sleep(5)  # Breve pausa para estabilidad
 
-        # Hacer clic en el canal
-        channel.click()
+        # Verificar si el canal ya está seleccionado
+        if channel.get_attribute("class") and "selected" in channel.get_attribute("class"):
+            current_url = driver.current_url
+            print(f"🔹 Canal ya seleccionado. URL actual: {current_url}")
+        else:
+            # Buscar el enlace dentro del canal
+            link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
 
-        # Esperar a que aparezca la clase "selected"
-        WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-        )
-        
-        # Extraer URL y nombre del canal
-        channel_url = channel.get_attribute("href")
-        channel_name = channel_url.split("/live/")[-1] if channel_url else None
+            if link_element:
+                link_element.click()  # Hacer clic en el canal
+                
+                # Esperar que la URL cambie
+                WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                )
+                
+                # Obtener la nueva URL
+                new_url = driver.current_url
+                print(f"✅ Canal cambiado. Nueva URL: {new_url}")
+        # channel_name = channel_url.split("/live/")[-1] if channel_url else None
 
-        # Extraer logo
-        logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
-        logo_url = logo_element.get_attribute("src") if logo_element else None
+        # # Extraer logo
+        # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
+        # logo_url = logo_element.get_attribute("src") if logo_element else None
 
-        # Extraer calidad
-        quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
-        quality = quality_element.text if quality_element else "Unknown"
+        # # Extraer calidad
+        # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
+        # quality = quality_element.text if quality_element else "Unknown"
 
-        # Extraer información del programa actual
-        title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
-        title = title_element.text if title_element else "Unknown"
+        # # Extraer información del programa actual
+        # title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
+        # title = title_element.text if title_element else "Unknown"
 
-        time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
-        time_slot = time_slot_element.text if time_slot_element else "Unknown"
+        # time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
+        # time_slot = time_slot_element.text if time_slot_element else "Unknown"
 
-        #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
-        #category = category_element.text if category_element else "Unknown"
+        # #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
+        # #category = category_element.text if category_element else "Unknown"
 
-        description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
-        description = description_element.text if description_element else "No description available"
+        # description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
+        # description = description_element.text if description_element else "No description available"
 
-        # Agregar canal a la lista
-        channels_data.append({
-            "name": channel_name,
-            "url": {channel_url},
-            "logo": logo_url,
-            "quality": quality,
-            "current_program": {
-                "title": title,
-                "time_slot": time_slot,
-                "category": None,
-                "description": description
-            }
-        })
+        # # Agregar canal a la lista
+        # channels_data.append({
+        #     "name": channel_name,
+        #     "url": {channel_url},
+        #     "logo": logo_url,
+        #     "quality": quality,
+        #     "current_program": {
+        #         "title": title,
+        #         "time_slot": time_slot,
+        #         "category": None,
+        #         "description": description
+        #     }
+        # })
 
     except Exception as e:
-        print(f"Error procesando el canal {channel_name}: {e}")
-        continue
+        print(f"Error procesando el canal: {e}")
 
     # Cerrar Selenium
     finally:
         driver.quit()
 
         # Guardar el documento completo en MongoDB
-        documento = {"channels": channels_data}
-        guardar_documento(documento)
-        print(f"Se han guardado {len(channels_data)} canales en MongoDB.")
+        # documento = {"channels": channels_data}
+        # guardar_documento(documento)
+        # print(f"Se han guardado {len(channels_data)} canales en MongoDB.")
