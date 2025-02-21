@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from dbconfig import guardar_documento
 
 # Configuración de Selenium Grid
@@ -35,93 +35,106 @@ chrome_options.add_argument(f"user-agent={random_user_agent}")
 # Eliminar el mensaje "Chrome is being controlled"
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
-# Inicializar WebDriver correctamente (SIN `desired_capabilities`)
-driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
+driver = None
+try:
 
-# URL base
-url_base = "https://www.9now.com.au/live"
-driver.get(url_base)
+    # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
+    driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
-# Esperar que la lista de canales cargue
-WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "channels"))
-)
+    # URL base
+    url_base = "https://www.9now.com.au/live"
+    driver.get(url_base)
 
-# Obtener la lista de canales
-channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card")
+    # Esperar que la lista de canales cargue
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "channels"))
+    )
 
-# Lista para almacenar los datos de todos los canales
-channels_data = []
+    # Obtener la lista de canales
+    channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card")
 
-time.sleep(10)
-# Recorrer cada canal
-for channel in channels:
-    try:
-        time.sleep(5)  # Breve pausa para estabilidad
+    # Lista para almacenar los datos de todos los canales
+    channels_data = []
 
-        # Verificar si el canal ya está seleccionado
-        if channel.get_attribute("class") and "selected" in channel.get_attribute("class"):
-            current_url = driver.current_url
-            print(f"🔹 Canal ya seleccionado. URL actual: {current_url}")
-        else:
-            # Buscar el enlace dentro del canal
-            link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+    time.sleep(10)
+    # Recorrer cada canal
+    for channel in channels:
+        try:
+            time.sleep(5)  # Breve pausa para estabilidad
 
-            if link_element:
-                link_element.click()  # Hacer clic en el canal
-                
-                # Esperar que la URL cambie
-                WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-                )
-                
-                # Obtener la nueva URL
-                new_url = driver.current_url
-                print(f"✅ Canal cambiado. Nueva URL: {new_url}")
-        # channel_name = channel_url.split("/live/")[-1] if channel_url else None
+            # Verificar si el canal ya está seleccionado
+            if channel.get_attribute("class") and "selected" in channel.get_attribute("class"):
+                current_url = driver.current_url
+                print(f"🔹 Canal ya seleccionado. URL actual: {current_url}")
+            else:
+                try:
+                    # Buscar el enlace dentro del canal
+                    link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
 
-        # # Extraer logo
-        # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
-        # logo_url = logo_element.get_attribute("src") if logo_element else None
+                    if link_element:
+                        link_element.click()  # Hacer clic en el canal
+                        
+                        # Esperar que la URL cambie
+                        WebDriverWait(driver, 5).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                        )
+                        
+                        # Obtener la nueva URL
+                        new_url = driver.current_url
+                        print(f"✅ Canal cambiado. Nueva URL: {new_url}")
+                        # channel_name = channel_url.split("/live/")[-1] if channel_url else None
 
-        # # Extraer calidad
-        # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
-        # quality = quality_element.text if quality_element else "Unknown"
+                        # # Extraer logo
+                        # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
+                        # logo_url = logo_element.get_attribute("src") if logo_element else None
 
-        # # Extraer información del programa actual
-        # title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
-        # title = title_element.text if title_element else "Unknown"
+                        # # Extraer calidad
+                        # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
+                        # quality = quality_element.text if quality_element else "Unknown"
 
-        # time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
-        # time_slot = time_slot_element.text if time_slot_element else "Unknown"
+                        # # Extraer información del programa actual
+                        # title_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
+                        # title = title_element.text if title_element else "Unknown"
 
-        # #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
-        # #category = category_element.text if category_element else "Unknown"
+                        # time_slot_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
+                        # time_slot = time_slot_element.text if time_slot_element else "Unknown"
 
-        # description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
-        # description = description_element.text if description_element else "No description available"
+                        # #category_element = channel.find_element(By.XPATH, "//span[contains(text(),'Live')]/following-sibling::span")
+                        # #category = category_element.text if category_element else "Unknown"
 
-        # # Agregar canal a la lista
-        # channels_data.append({
-        #     "name": channel_name,
-        #     "url": {channel_url},
-        #     "logo": logo_url,
-        #     "quality": quality,
-        #     "current_program": {
-        #         "title": title,
-        #         "time_slot": time_slot,
-        #         "category": None,
-        #         "description": description
-        #     }
-        # })
+                        # description_element = channel.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
+                        # description = description_element.text if description_element else "No description available"
 
-    except Exception as e:
-        print(f"Error procesando el canal: {e}")
+                        # # Agregar canal a la lista
+                        # channels_data.append({
+                        #     "name": channel_name,
+                        #     "url": {channel_url},
+                        #     "logo": logo_url,
+                        #     "quality": quality,
+                        #     "current_program": {
+                        #         "title": title,
+                        #         "time_slot": time_slot,
+                        #         "category": None,
+                        #         "description": description
+                        #     }
+                        # })
 
-    # Cerrar Selenium
-    finally:
+                except NoSuchElementException:
+                    print("❌ No se encontró el enlace del canal.")
+                except TimeoutException:
+                    print("⚠️ No se detectó el cambio de canal a tiempo.")
+
+        except Exception as e:
+            print(f"Error procesando el canal: {e}")
+
+except WebDriverException as e:
+    print(f"❌ Error al iniciar WebDriver: {e}")
+
+# Cerrar Selenium
+finally:
+    if driver:
         driver.quit()
-
+        print("✅ WebDriver cerrado correctamente.")
         # Guardar el documento completo en MongoDB
         # documento = {"channels": channels_data}
         # guardar_documento(documento)

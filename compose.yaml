@@ -15,7 +15,7 @@ services:
       - DATABASE_NAME=${DATABASE_NAME}
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}  
-    restart: always
+    #restart: always
     networks:
       - selenium-grid  # Usa la red compartida con el proyecto 1
 
