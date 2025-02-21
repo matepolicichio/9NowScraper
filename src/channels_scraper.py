@@ -66,7 +66,7 @@ try:
             else:               
                 # Si no está seleccionado, hacer clic en el canal
                 # Buscar el enlace del canal
-                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+                link_element = channel.find_element(By.CSS_SELECTOR, "a .channel_card")
 
                 if link_element:
                     link_element.click()
