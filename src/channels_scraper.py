@@ -74,6 +74,7 @@ try:
                 if link_element:
                     link_element.click()
                     print("click")
+                    time.sleep(5)
 
                     # Esperar hasta que la clase `.selected` aparezca
                     WebDriverWait(driver, 10).until(
