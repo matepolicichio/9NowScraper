@@ -51,7 +51,7 @@ try:
     )
 
     # Obtener la lista de canales
-    channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card")
+    channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card__list_item")
 
     # Lista para almacenar los datos de todos los canales
     channels_data = []
@@ -60,13 +60,16 @@ try:
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
+            selected_channel = None
             # Verificar si el canal ya está seleccionado
             if "selected" in channel.get_attribute("class"):
+                selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
             else:               
                 # Si no está seleccionado, hacer clic en el canal
                 # Buscar el enlace del canal
-                link_element = channel.find_element(By.CSS_SELECTOR, "a .channel_card")
+                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+                print(link_element)
 
                 if link_element:
                     link_element.click()
