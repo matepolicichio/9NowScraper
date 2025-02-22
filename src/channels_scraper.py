@@ -98,6 +98,7 @@ try:
 
                 channel_url = driver.current_url
                 channel_name = channel_url.split("/live/")[-1] if channel_url else None
+                channel_name = channel_name.replace("-", " ").title() if channel_name else "N/A"
 
                 # Extraer logo
                 try:
