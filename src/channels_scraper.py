@@ -126,21 +126,12 @@ try:
 
                 try:
                     # Buscar todos los <span> dentro de .channel_card__metadata__element
-                    metadata_spans = channel_card_selected.find_elements(By.CSS_SELECTOR, ".channel_card__metadata__element span")
+                    metadata_spans = channel_card_selected.find_elements(By.CSS_SELECTOR, ".sdui_inline_text_and_icon_element")
 
-                    # Extraer time slot (2do span)
-                    try:
-                        time_slot = metadata_spans[2].text.strip() if len(metadata_spans) > 2 else "Unknown"
-                    except (IndexError, NoSuchElementException):
-                        print("⚠️ Advertencia: No se encontró el time slot del programa.")
-                        time_slot = "N/A"
-
-                    # Extraer categoría (3er span)
-                    try:
-                        category = metadata_spans[3].text.strip() if len(metadata_spans) > 3 else "Unknown"
-                    except (IndexError, NoSuchElementException):
-                        print("⚠️ Advertencia: No se encontró la categoría del programa.")
-                        category = "N/A"
+                    # Extraer el primer y segundo elemento de los 7 existentes
+                    if len(metadata_spans) >= 2:
+                        time_slot = metadata_spans[1].text.strip()  # Segundo elemento (índice 1)
+                        category = metadata_spans[2].text.strip()  # Tercer elemento (índice 2)
 
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró la metadata del programa.")
