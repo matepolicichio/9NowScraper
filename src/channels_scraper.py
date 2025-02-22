@@ -57,6 +57,7 @@ try:
     channels_data = []
 
     time.sleep(10)
+
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
@@ -66,17 +67,20 @@ try:
                 selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
             else:               
-                # Si no está seleccionado, hacer clic en el canal
                 # Buscar el enlace del canal
-                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
-                print(link_element)
+                try:
+                    link_element = WebDriverWait(channel, 10).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.channel_card"))
+                    )
+                except TimeoutException:
+                    print(f"⚠️ No se pudo encontrar el enlace del canal en el tiempo esperado.")
+                    continue  # Pasar al siguiente canal
 
                 if link_element:
                     link_element.click()
-                    print("click")
-                    time.sleep(5)
+                    print("✅ Click en el canal.")
 
-                    # Esperar hasta que la clase `.selected` aparezca
+                    # Esperar hasta que la clase `.selected` aparezca en el canal
                     WebDriverWait(driver, 10).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
                     )
