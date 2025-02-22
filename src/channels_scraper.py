@@ -62,7 +62,8 @@ try:
     for index, channel in enumerate(channels):        
         try:
             # Verificar si el canal ya está seleccionado
-            if "selected" in channel.find_element(By.CSS_SELECTOR, "div.channel_card").get_attribute("class"):
+            selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
+            if "selected" in selected_channel.get_attribute("class"):
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
             else:               
                 # Buscar el enlace del canal
