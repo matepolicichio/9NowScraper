@@ -100,9 +100,31 @@ try:
 
                 # Extraer logo
                 logo_element = WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_logo img"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected .channel_logo img"))
                 )
                 logo_url = logo_element.get_attribute("src") if logo_element else None
+
+                # # Extraer calidad
+                # quality_element = WebDriverWait(driver, 5).until(
+                #     EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_logo__signpost_badge"))
+                # )
+                # quality = quality_element.text if quality_element else "Unknown"
+
+                # # Extraer información del programa actual
+                # title_element = WebDriverWait(driver, 5).until(
+                #     EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card__metadata__title"))
+                # )
+                # title = title_element.text if title_element else "Unknown"
+
+                # time_slot_element = WebDriverWait(driver, 5).until(
+                #     EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card__metadata__epg"))
+                # )
+                # time_slot = time_slot_element.text if time_slot_element else "Unknown"
+
+                # description_element = WebDriverWait(driver, 5).until(
+                #     EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card__metadata__description p"))
+                # )
+                # description = description_element.text if description_element else "No description available"
 
                 # Agregar canal a la lista
                 channels_data.append({
