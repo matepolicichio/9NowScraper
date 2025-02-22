@@ -36,6 +36,7 @@ chrome_options.add_argument(f"user-agent={random_user_agent}")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 driver = None
+
 try:
 
     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
