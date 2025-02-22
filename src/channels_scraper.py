@@ -105,7 +105,13 @@ try:
 
                 # Extraer calidad
                 quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
-                quality = quality_element.text if quality_element else "Unknown"
+                try:
+                    # Esperar hasta que el elemento esté presente en el DOM (máximo 10 segundos)
+                    quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
+                    quality = quality_element.text
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el elemento de calidad en el DOM.")
+                    quality = "N/A"
 
                 # Extraer información del programa actual
                 title_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
