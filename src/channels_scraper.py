@@ -104,7 +104,6 @@ try:
                 logo_url = logo_element.get_attribute("src") if logo_element else None
 
                 # Extraer calidad
-                quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
                 try:
                     # Esperar hasta que el elemento esté presente en el DOM (máximo 10 segundos)
                     quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
