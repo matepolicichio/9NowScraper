@@ -55,14 +55,14 @@ try:
 
     # Lista para almacenar los datos de todos los canales
     channels_data = []
-
+    channel_card_selected = None
+    
     time.sleep(10)
 
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
             first_channel = None
-            channel_card_selected = None
 
             # Verificar si el canal ya está seleccionado
             try:
