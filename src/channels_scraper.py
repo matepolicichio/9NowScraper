@@ -61,15 +61,21 @@ try:
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
-            # Verificar si el canal ya está seleccionado
-            selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
-            if "selected" in selected_channel.get_attribute("class"):
-                print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
-            else:               
-                # Buscar el enlace del canal
-                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+            selected_channel = None
 
-                if link_element:
+            # Verificar si el canal ya está seleccionado
+            try:
+                selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
+                print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
+            except NoSuchElementException:
+                pass  # Si no encuentra el elemento, continúa con la búsqueda del enlace
+            
+            
+            if not selected_channel:
+                try:               
+                    # Buscar el enlace del canal
+                    link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+
                     link_element.click()
                     print("✅ Click en el canal.")
                     time.sleep(3)
@@ -117,10 +123,11 @@ try:
                     #     }
                     # })
 
-        except NoSuchElementException:
-            print("❌ No se encontró el enlace del canal.")
-        except TimeoutException:
-            print("⚠️ No se detectó el cambio de canal a tiempo.")
+                except NoSuchElementException:
+                    print("❌ No se encontró el enlace del canal.")
+
+                except TimeoutException:
+                    print("⚠️ No se detectó el cambio de canal a tiempo.")
 
         except Exception as e:
             print(f"Error procesando el canal: {e}")
