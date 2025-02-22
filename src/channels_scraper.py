@@ -100,8 +100,12 @@ try:
                 channel_name = channel_url.split("/live/")[-1] if channel_url else None
 
                 # Extraer logo
-                logo_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo img")
-                logo_url = logo_element.get_attribute("src") if logo_element else None
+                try:
+                    logo_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo img")
+                    logo_url = logo_element.get_attribute("src") if logo_element else None
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el logo del canal.")
+                    logo_url = "N/A"
 
                 # Extraer calidad
                 try:
@@ -113,14 +117,26 @@ try:
                     quality = "N/A"
 
                 # Extraer información del programa actual
-                title_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
-                title = title_element.text if title_element else "Unknown"
+                try:
+                    title_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
+                    title = title_element.text if title_element else "Unknown"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el título del programa.")
+                    title = "N/A"
 
-                time_slot_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__epg")
-                time_slot = time_slot_element.text if time_slot_element else "Unknown"
+                try:
+                    time_slot_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__element span")
+                    time_slot = time_slot_element[1].text if len(time_slot_element) > 1 else "Unknown"
+                except (NoSuchElementException, IndexError):
+                    print("⚠️ Advertencia: No se encontró la franja horaria del programa.")
+                    time_slot = "N/A"
 
-                description_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
-                description = description_element.text if description_element else "No description available"
+                try:
+                    description_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
+                    description = description_element.text if description_element else "No description available"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró la descripción del programa.")
+                    description = "N/A"
 
                 # Agregar canal a la lista
                 channels_data.append({
