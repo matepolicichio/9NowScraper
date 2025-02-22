@@ -107,7 +107,7 @@ try:
                 # Agregar canal a la lista
                 channels_data.append({
                     "name": channel_name,
-                    "url": {channel_url},
+                    "url": channel_url,
                     "logo": logo_url
                 #     "quality": quality,
                 #     "current_program": {
