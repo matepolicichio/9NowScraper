@@ -61,17 +61,17 @@ try:
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
-            selected_channel = None
+            first_channel = None
 
             # Verificar si el canal ya está seleccionado
             try:
-                selected_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
+                first_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
             except NoSuchElementException:
                 pass  # Si no encuentra el elemento, continúa con la búsqueda del enlace
             
             
-            if not selected_channel:
+            if not first_channel:
                 try:               
                     # Buscar el enlace del canal
                     link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
@@ -81,7 +81,7 @@ try:
                     time.sleep(3)
 
                     # Esperar hasta que la clase `.selected` aparezca en el canal
-                    WebDriverWait(driver, 10).until(
+                    channel_card_selected = WebDriverWait(driver, 10).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
                     )
                     print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
@@ -95,13 +95,12 @@ try:
                     continue # Saltar al siguiente canal si el cambio no ocurre
 
             try:
+
                 channel_url = driver.current_url
                 channel_name = channel_url.split("/live/")[-1] if channel_url else None
 
                 # Extraer logo
-                logo_element = WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected .channel_logo img"))
-                )
+                logo_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo img")
                 logo_url = logo_element.get_attribute("src") if logo_element else None
 
                 # # Extraer calidad
