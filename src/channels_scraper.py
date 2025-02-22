@@ -68,17 +68,12 @@ try:
                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
             else:               
                 # Buscar el enlace del canal
-                try:
-                    link_element = WebDriverWait(channel, 10).until(
-                        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.channel_card"))
-                    )
-                except TimeoutException:
-                    print(f"⚠️ No se pudo encontrar el enlace del canal en el tiempo esperado.")
-                    continue  # Pasar al siguiente canal
+                link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
 
                 if link_element:
                     link_element.click()
                     print("✅ Click en el canal.")
+                    time.sleep(3)
 
                     # Esperar hasta que la clase `.selected` aparezca en el canal
                     WebDriverWait(driver, 10).until(
