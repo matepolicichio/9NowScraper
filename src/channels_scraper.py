@@ -62,6 +62,7 @@ try:
     for index, channel in enumerate(channels):        
         try:
             first_channel = None
+            channel_card_selected = None
 
             # Verificar si el canal ya está seleccionado
             try:
