@@ -55,7 +55,6 @@ try:
 
     # Lista para almacenar los datos de todos los canales
     channels_data = []
-    channel_card_selected = None
     
     time.sleep(10)
 
@@ -81,10 +80,6 @@ try:
                     print("✅ Click en el canal.")
                     time.sleep(3)
 
-                    # Esperar hasta que la clase `.selected` aparezca en el canal
-                    channel_card_selected = WebDriverWait(driver, 10).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-                    )
                     print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
             
                 except NoSuchElementException:
@@ -96,6 +91,10 @@ try:
                     continue # Saltar al siguiente canal si el cambio no ocurre
 
             try:
+                # Esperar hasta que la clase `.selected` aparezca en el canal
+                channel_card_selected = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                )
 
                 channel_url = driver.current_url
                 channel_name = channel_url.split("/live/")[-1] if channel_url else None
