@@ -125,10 +125,10 @@ try:
                     title = "N/A"
 
                 try:
-                    time_slot_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__element span")
-                    time_slot = time_slot_element[1].text if len(time_slot_element) > 1 else "Unknown"
-                except (NoSuchElementException, IndexError):
-                    print("⚠️ Advertencia: No se encontró la franja horaria del programa.")
+                    time_slot_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__element span:nth-child(2)")
+                    time_slot = time_slot_element.text if time_slot_element else "Unknown"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el time slot del programa.")
                     time_slot = "N/A"
 
                 try:
