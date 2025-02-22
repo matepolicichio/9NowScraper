@@ -86,11 +86,40 @@ try:
                     )
                     print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
             
-                    # channel_name = channel_url.split("/live/")[-1] if channel_url else None
+                except NoSuchElementException:
+                    print("❌ No se encontró el enlace del canal.")
+                    continue # Saltar al siguiente canal si el cambio no ocurre
 
-                    # # Extraer logo
-                    # logo_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo img")
-                    # logo_url = logo_element.get_attribute("src") if logo_element else None
+                except TimeoutException:
+                    print("⚠️ No se detectó el cambio de canal a tiempo.")
+                    continue # Saltar al siguiente canal si el cambio no ocurre
+
+            try:
+                channel_url = driver.current_url
+                channel_name = channel_url.split("/live/")[-1] if channel_url else None
+
+                # Extraer logo
+                logo_element = WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_logo img"))
+                )
+                logo_url = logo_element.get_attribute("src") if logo_element else None
+
+                # Agregar canal a la lista
+                channels_data.append({
+                    "name": channel_name,
+                    "url": {channel_url},
+                    "logo": logo_url
+                #     "quality": quality,
+                #     "current_program": {
+                #         "title": title,
+                #         "time_slot": time_slot,
+                #         "category": None,
+                #         "description": description
+                #     }
+                })
+
+            except TimeoutException:
+                print("⚠️ No se pudo extraer la información del canal a tiempo.")
 
                     # # Extraer calidad
                     # quality_element = channel.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
@@ -123,12 +152,6 @@ try:
                     #     }
                     # })
 
-                except NoSuchElementException:
-                    print("❌ No se encontró el enlace del canal.")
-
-                except TimeoutException:
-                    print("⚠️ No se detectó el cambio de canal a tiempo.")
-
         except Exception as e:
             print(f"Error procesando el canal: {e}")
 
@@ -140,7 +163,8 @@ finally:
     if driver:
         driver.quit()
         print("✅ WebDriver cerrado correctamente.")
-        # Guardar el documento completo en MongoDB
-        # documento = {"channels": channels_data}
-        # guardar_documento(documento)
-        # print(f"Se han guardado {len(channels_data)} canales en MongoDB.")
+    # Guardar el documento completo en MongoDB
+    if channels_data:
+        documento = {"channels": channels_data}
+        guardar_documento(documento)
+        print(f"✅ Se han guardado {len(channels_data)} canales en MongoDB.")
