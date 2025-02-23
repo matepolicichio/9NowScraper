@@ -211,14 +211,14 @@ try:
         EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
     )
 
-#     # # Obtener la lista de días de navegación
-#     # day_nav_list = WebDriverWait(driver, 10).until(
-#     #     EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".day-nav__list__item"))
-#     # )
-#     # print(f"🔹 Días de navegación extraídos: {len(day_nav_list)}")
+    # Obtener la lista de días de navegación
+    day_nav_list = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".day-nav__list__item"))
+    )
+    print(f"🔹 Días de navegación extraídos: {len(day_nav_list)}")
 
-#     # # Lista para almacenar los datos de todos los canales
-#     # channels_data = []
+    # Lista para almacenar los datos de todos los canales
+    channels_data = []
     
 #     # # Recorrer cada canal
 #     # for day_nav in day_nav_list:        
