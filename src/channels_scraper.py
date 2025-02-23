@@ -211,24 +211,21 @@ try:
             day_nav_link.click()
             print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
-            # Esperar que la grilla de programas cargue
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid")))
-            
             time.sleep(5)
 
-            # Obtener la grilla de programas
-            guide_rows = driver.find_elements(By.CSS_SELECTOR, ".guide__row:not(.guide__row--sticky)")
-            print(f"✅ Canales extraídos: {len(guide_rows)}")
+            # Esperar que la grilla de programas cargue
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
+            
+            # Obtener la filas de la grilla (canales menos el ON DEMAND)
+            guide_rows = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".guide__grid .guide__row:not(.guide__row--sticky)"))
+            )            
+            print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
             for grid_row in guide_rows:
                 try:
                     channel_name = grid_row.get_attribute("data-channel-name")
                     print(f"🔹 Canal: {channel_name}")
-
-                    # Esperar que haya programas dentro de la fila antes de continuar
-                    WebDriverWait(driver, 5).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__row__block"))
-                    )
 
                     # Extraer la lista de programas
                     programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
@@ -237,30 +234,30 @@ try:
                     for index, program in enumerate(programs):
                         try:
                             # Extraer el título del programa
-                            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "h4")))
                             program_title = program.find_element(By.CSS_SELECTOR, "h4").text
 
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
                             WebDriverWait(driver, 5).until(EC.element_to_be_clickable(program_link))
                             program_link.click()
-                            
-                            # Esperar que cargue el detalle del programa
-                            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+
                             if index == 0:
                                 time.sleep(5)
                             else:
                                 time.sleep(3)
 
+                            # Esperar que cargue el detalle del programa
+                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+
                             # Extraer la hora de inicio y fin del programa
-                            program_time = driver.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
+                            program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
 
                             # Extraer la descripción del programa
-                            program_description = driver.find_element(By.CSS_SELECTOR, ".show-down__description").text
+                            program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text
 
                             # Extraer los tags del programa
                             try:
-                                program_tags = driver.find_element(By.CSS_SELECTOR, ".show-down__tags").text
+                                program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
                             except NoSuchElementException:
                                 program_tags = "No Tags Available"
 
@@ -272,7 +269,7 @@ try:
                             # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
                             if index == len(programs) - 1:
                                 try:
-                                    program_close = driver.find_element(By.CSS_SELECTOR, ".show-down__close")
+                                    program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
                                     program_close.click()
                                     print("🛑 Cierre del detalle del último programa exitoso.")
                                 except NoSuchElementException:
