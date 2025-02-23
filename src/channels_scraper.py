@@ -1,5 +1,6 @@
 import random
 import time
+import traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -173,8 +174,8 @@ driver = None
 
 # Channels en TV Guide
 try:
-
     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
+    print("🔄 Iniciando WebDriver...")
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
     # Iniciar el cronómetro
@@ -184,22 +185,27 @@ try:
     url_base = "https://tvguide.9now.com.au/guide"
     driver.get(url_base)
 
-    # # Esperar que la lista de canales cargue
-    WebDriverWait(driver, 10).until(
+    print("✅ Página cargada correctamente.")
+
+    # Esperar que la lista de canales cargue
+    WebDriverWait(driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
     )
 
-    # Obtener la lista de dias de navegacion
-    day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
+    # Obtener la lista de días de navegación
+    day_nav_list = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".day-nav__list__item"))
+    )
+    print(f"🔹 Días de navegación extraídos: {len(day_nav_list)}")
 
     # Lista para almacenar los datos de todos los canales
     channels_data = []
     
-    time.sleep(10)
-
     # Recorrer cada canal
     for day_nav in day_nav_list:        
         try:
+            print("\n🔄 Procesando un nuevo día...")
+
             # Subir al inicio de la página
             driver.execute_script("window.scrollTo(0, 0);")
 
@@ -211,10 +217,8 @@ try:
             day_nav_link.click()
             print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
-            time.sleep(5)
-
             # Esperar que la grilla de programas cargue
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
+            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
             
             # Obtener la filas de la grilla (canales menos el ON DEMAND)
             guide_rows = WebDriverWait(driver, 10).until(
@@ -234,32 +238,44 @@ try:
                     for index, program in enumerate(programs):
                         try:
                             # Extraer el título del programa
-                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
+                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text.strip()
 
-                            # Ver el detalle del programa
-                            program_link = program.find_element(By.CSS_SELECTOR, "a")
-                            WebDriverWait(driver, 5).until(EC.element_to_be_clickable(program_link))
-                            program_link.click()
+                            try:
+                                # Ver el detalle del programa
+                                program_link = program.find_element(By.CSS_SELECTOR, "a")
+                                WebDriverWait(driver, 5).until(EC.element_to_be_clickable(program_link))
+                                program_link.click()
+                            except NoSuchElementException:
+                                print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
+                                continue
 
-                            if index == 0:
-                                time.sleep(5)
-                            else:
-                                time.sleep(3)
+                            print(f"✅ Cargando detalles de: {program_title}...")
+
+                            # if index == 0:
+                            #     time.sleep(5)
+                            # else:
+                            #     time.sleep(3)
 
                             # Esperar que cargue el detalle del programa
                             program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
 
                             # Extraer la hora de inicio y fin del programa
-                            program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
+                            try:
+                                program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
+                            except NoSuchElementException:
+                                program_time = "N/A"
 
                             # Extraer la descripción del programa
-                            program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text
+                            try:
+                                program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
+                            except NoSuchElementException:
+                                program_description = "N/A"
 
                             # Extraer los tags del programa
                             try:
                                 program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
                             except NoSuchElementException:
-                                program_tags = "No Tags Available"
+                                program_tags = "N/A"
 
                             print(f" ✅ Titulo: {program_title}")   
                             print(f"    Hora: {program_time}")   
@@ -288,6 +304,7 @@ try:
 
         except Exception as e:
             print(f"Error procesando el canal: {e}")
+            print(traceback.format_exc())
 
 except WebDriverException as e:
     print(f"❌ Error al iniciar WebDriver: {e}")
