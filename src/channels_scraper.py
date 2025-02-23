@@ -182,7 +182,7 @@ try:
     driver.get(url_base)
 
     # # Esperar que la lista de canales cargue
-    guide_grid = WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "guide__grid"))
     )
 
@@ -195,7 +195,7 @@ try:
     time.sleep(10)
 
     # Recorrer cada canal
-    for index, day_nav in enumerate(day_nav_list):        
+    for day_nav in day_nav_list:        
         try:
             # Extraer el enlace del día
             day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
@@ -205,14 +205,18 @@ try:
             day_nav_link.click()
             print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
+            # Esperar que la grilla de programas cargue
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid")))
+            
             time.sleep(5)
 
-    #         guide_rows = guide_grid.find_elements(By.CSS_SELECTOR, ".guide__row")
+            # Obtener la grilla de programas
+            guide_rows = driver.find_elements(By.CSS_SELECTOR, ".guide__row")
 
-    #         for index, grid_row in enumerate(guide_rows):
-    #             try:
-    #                 channel_name = grid_row.get_attribute("data-channel-name")
-    #                 print(f"🔹 Canal: {channel_name}")
+            for grid_row in guide_rows:
+                try:
+                    channel_name = grid_row.get_attribute("data-channel-name")
+                    print(f"🔹 Canal: {channel_name}")
 
 
 
@@ -248,10 +252,9 @@ try:
     #                 #         print("⚠️ Advertencia: No se encontró información del programa.")
     #                 #         continue
 
-    #             except NoSuchElementException:
-    #                 print("⚠️ Advertencia: No se encontró información del canal.")
-    #                 continue
-
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró información del canal.")
+                    continue
 
         except TimeoutException:
             print("⚠️ No se pudo extraer la información del canal a tiempo.")
