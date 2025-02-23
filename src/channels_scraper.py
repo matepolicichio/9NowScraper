@@ -245,14 +245,14 @@ try:
             )            
             print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
-#         #     for grid_row in guide_rows:
-#         #         try:
-#         #             channel_name = grid_row.get_attribute("data-channel-name")
-#         #             print(f"🔹 Canal: {channel_name}")
+            for grid_row in guide_rows:
+                try:
+                    channel_name = grid_row.get_attribute("data-channel-name")
+                    print(f"🔹 Canal: {channel_name}")
 
-#         #             # Extraer la lista de programas
-#         #             programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
-#         #             print(f"✅ Programas extraídos: {len(programs)}")
+                    # Extraer la lista de programas
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
+                    print(f"✅ Programas extraídos: {len(programs)}")
 
 #         #             for index, program in enumerate(programs):
 #         #                 try:
@@ -318,9 +318,9 @@ try:
 #         #                     print("⚠️ Advertencia: No se encontró información del programa.")
 #         #                     continue
 
-#         #         except NoSuchElementException:
-#         #             print("⚠️ Advertencia: No se encontró información del canal.")
-#         #             continue
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró información del canal.")
+                    continue
 
         except TimeoutException:
             print("⚠️ No se pudo extraer la información del canal a tiempo.")
