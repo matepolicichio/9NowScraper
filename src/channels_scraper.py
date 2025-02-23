@@ -221,14 +221,26 @@ try:
                     channel_name = grid_row.get_attribute("data-channel-name")
                     print(f"🔹 Canal: {channel_name}")
 
-                    # Extraer la lista de programas menos el ON DEMAND
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not([class*='guide__row--sticky'])")
+                    # # Extraer la lista de programas menos el ON DEMAND
+                    # programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not([class*='guide__row--sticky'])")
+
+                    # Obtener todos los programas
+                    all_programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
+
+                    # Filtrar los programas excluyendo los que contienen la clase 'guide__row--sticky'
+                    programs = [program for program in all_programs if "guide__row--sticky" not in program.get_attribute("class")]
+
+                    # Verificar si se excluyeron correctamente
+                    print(f"✅ Programas extraídos: {len(programs)}")
 
                     for index, program in enumerate(programs):
                         try:
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
                             program_link.click()
+
+                            if index == 0:
+                                time.sleep(2)
 
                             # Extraer el título del programa
                             program_title = program.find_element(By.CSS_SELECTOR, "h4").text
