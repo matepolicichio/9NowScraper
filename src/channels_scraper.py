@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dbconfig import guardar_documento
 
 # Configuración de Selenium Grid
@@ -39,6 +40,12 @@ USER_AGENTS = [
 # Seleccionar un User-Agent aleatorio
 random_user_agent = random.choice(USER_AGENTS)
 chrome_options.add_argument(f"user-agent={random_user_agent}")
+
+# Extra capabilities
+capabilities = DesiredCapabilities.CHROME.copy()
+capabilities['goog:chromeOptions'] = {
+    'excludeSwitches': ['enable-automation'],  # Remove "Chrome is being controlled" message
+}
 
 # Eliminar el mensaje "Chrome is being controlled"
 # chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
