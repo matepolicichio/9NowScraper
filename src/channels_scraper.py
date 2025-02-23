@@ -222,7 +222,7 @@ try:
                     print(f"🔹 Canal: {channel_name}")
 
                     # Extraer la lista de programas menos el ON DEMAND
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row--sticky)")
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not([class*='guide__row--sticky'])")
 
                     for index, program in enumerate(programs):
                         try:
@@ -235,7 +235,7 @@ try:
                             
                             # Esperar que cargue el detalle del programa
                             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
-                            time.sleep(2)
+                            time.sleep(3)
 
                             # Extraer la hora de inicio y fin del programa
                             program_time = driver.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
@@ -285,11 +285,17 @@ finally:
     if driver:
         driver.quit()
         print("✅ WebDriver cerrado correctamente.")
-    # Finalizar el cronómetro
-    end_time = time.time()  
-    print(f"⏱️ Tiempo total de ejecución: {end_time - start_time} segundos.")
-    # # Guardar el documento completo en MongoDB
+
+    # Guardar el documento completo en MongoDB
     # if channels_data:
     #     documento = {"channels": channels_data}
     #     guardar_documento(documento)
     #     print(f"✅ Se han guardado {len(channels_data)} canales en MongoDB.")
+
+    # Finalizar el cronómetro
+    end_time = time.time()  
+    # Calcular la duración
+    execution_time = end_time - start_time
+    minutes = int(execution_time // 60)
+    seconds = int(execution_time % 60)
+    print(f"\n⏳ Tiempo total de ejecución: {minutes} min {seconds} sec.")
