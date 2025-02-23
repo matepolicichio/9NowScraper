@@ -41,11 +41,11 @@ USER_AGENTS = [
 random_user_agent = random.choice(USER_AGENTS)
 chrome_options.add_argument(f"user-agent={random_user_agent}")
 
-# Extra capabilities
-capabilities = DesiredCapabilities.CHROME.copy()
-capabilities['goog:chromeOptions'] = {
-    'excludeSwitches': ['enable-automation'],  # Remove "Chrome is being controlled" message
-}
+# # Extra capabilities
+# capabilities = DesiredCapabilities.CHROME.copy()
+# capabilities['goog:chromeOptions'] = {
+#     'excludeSwitches': ['enable-automation'],  # Remove "Chrome is being controlled" message
+# }
 
 # Eliminar el mensaje "Chrome is being controlled"
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
