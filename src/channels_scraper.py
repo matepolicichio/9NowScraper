@@ -235,13 +235,13 @@ try:
 
                     for index, program in enumerate(programs):
                         try:
+                            # Extraer el título del programa
+                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
+
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
                             WebDriverWait(driver, 5).until(EC.element_to_be_clickable(program_link))
                             program_link.click()
-
-                            # Extraer el título del programa
-                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
                             
                             # Esperar que cargue el detalle del programa
                             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
