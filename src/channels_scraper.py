@@ -218,6 +218,7 @@ try:
 
             # Obtener la grilla de programas
             guide_rows = driver.find_elements(By.CSS_SELECTOR, ".guide__row:not(.guide__row--sticky)")
+            print(f"✅ Canales extraídos: {len(guide_rows)}")
 
             for grid_row in guide_rows:
                 try:
