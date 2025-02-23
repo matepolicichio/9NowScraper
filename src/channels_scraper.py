@@ -177,6 +177,9 @@ try:
     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
+    # Iniciar el cronómetro
+    start_time = time.time()
+
     # URL base
     url_base = "https://tvguide.9now.com.au/guide"
     driver.get(url_base)
@@ -221,7 +224,7 @@ try:
                     # Extraer la lista de programas menos el ON DEMAND
                     programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row--sticky)")
 
-                    for program in programs:
+                    for index, program in enumerate(programs):
                         try:
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
@@ -232,7 +235,7 @@ try:
                             
                             # Esperar que cargue el detalle del programa
                             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
-                            time.sleep(1)
+                            time.sleep(2)
 
                             # Extraer la hora de inicio y fin del programa
                             program_time = driver.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
@@ -241,15 +244,25 @@ try:
                             program_description = driver.find_element(By.CSS_SELECTOR, ".show-down__description").text
 
                             # Extraer los tags del programa
-                            program_tags = driver.find_elements(By.CSS_SELECTOR, ".show-down__tags")
+                            try:
+                                program_tags = driver.find_element(By.CSS_SELECTOR, ".show-down__tags").text
+                            except NoSuchElementException:
+                                program_tags = "No Tags Available"
 
                             print(f" ✅ Titulo: {program_title}")   
                             print(f"    Hora: {program_time}")   
                             print(f"    Descripción: {program_description}")
                             print(f"    Tags: {program_tags}")
 
- 
- 
+                            # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
+                            if index == len(programs) - 1:
+                                try:
+                                    program_close = driver.find_element(By.CSS_SELECTOR, ".show-down__close")
+                                    program_close.click()
+                                    print("🛑 Cierre del detalle del último programa exitoso.")
+                                except NoSuchElementException:
+                                    print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
+
                         except NoSuchElementException:
                             print("⚠️ Advertencia: No se encontró información del programa.")
                             continue
@@ -272,6 +285,9 @@ finally:
     if driver:
         driver.quit()
         print("✅ WebDriver cerrado correctamente.")
+    # Finalizar el cronómetro
+    end_time = time.time()  
+    print(f"⏱️ Tiempo total de ejecución: {end_time - start_time} segundos.")
     # # Guardar el documento completo en MongoDB
     # if channels_data:
     #     documento = {"channels": channels_data}
