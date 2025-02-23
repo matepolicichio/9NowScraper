@@ -187,7 +187,7 @@ except WebDriverException as e:
     print(f"❌ Error al iniciar WebDriver: {e}")
 
 # Channels en TV Guide
-# try:
+try:
 #     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
 #     print("🔄 Iniciando WebDriver...")
 #     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
@@ -196,10 +196,10 @@ except WebDriverException as e:
 #     start_time = time.time()
 
 #     # URL base
-#     url_base = "https://tvguide.9now.com.au/guide"
-#     driver.get(url_base)
+    url_guide = "https://tvguide.9now.com.au/guide"
+    driver.get(url_guide)
 
-#     print("✅ Página cargada correctamente.")
+    print("✅ Página cargada correctamente.")
 
 #     # # Esperar que la lista de canales cargue
 #     # WebDriverWait(driver, 15).until(
@@ -324,8 +324,8 @@ except WebDriverException as e:
 # #             print(f"Error procesando el canal: {e}")
 # #             print(traceback.format_exc())
 
-# except WebDriverException as e:
-#     print(f"❌ Error al iniciar WebDriver: {e}")
+except WebDriverException as e:
+    print(f"❌ Error al iniciar WebDriver: {e}")
 
 # Cerrar Selenium
 finally:
