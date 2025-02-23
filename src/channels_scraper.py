@@ -237,6 +237,8 @@ try:
                         try:
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
+                            driver.execute_script("arguments[0].scrollIntoView(true);", program_link)  # Scroll hacia el programa
+                            WebDriverWait(driver, 5).until(EC.element_to_be_clickable(program_link))
                             program_link.click()
 
                             # Extraer el título del programa
