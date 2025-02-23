@@ -195,9 +195,12 @@ try:
     # Iniciar el cronómetro
     start_time = time.time()
 
+    url_home = "https://www.9now.com.au/"
+
     # URL guide
-    url_guide = "https://tvguide.9now.com.au/guide/yesterday/"
-    driver.get(url_guide)
+    url_guide = "https://tvguide.9now.com.au/guide/"
+    driver.get(url_home)
+    time.sleep(5)
     driver.get(url_guide)
     
     print("✅ Página cargada correctamente.")
