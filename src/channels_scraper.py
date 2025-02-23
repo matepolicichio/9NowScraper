@@ -200,6 +200,9 @@ try:
     # Recorrer cada canal
     for day_nav in day_nav_list:        
         try:
+            # Subir al inicio de la página
+            driver.execute_script("window.scrollTo(0, 0);")
+
             # Extraer el enlace del día
             day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
 
