@@ -189,7 +189,7 @@ try:
         EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
     )
 
-    # Obtener la lista de canales
+    # Obtener la lista de dias de navegacion
     day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
 
     # Lista para almacenar los datos de todos los canales
@@ -224,9 +224,13 @@ try:
                     channel_name = grid_row.get_attribute("data-channel-name")
                     print(f"🔹 Canal: {channel_name}")
 
-                    # Extraer la lista de programas menos el ON DEMAND
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
+                    # Esperar que haya programas dentro de la fila antes de continuar
+                    WebDriverWait(driver, 5).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__row__block"))
+                    )
 
+                    # Extraer la lista de programas
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
                     print(f"✅ Programas extraídos: {len(programs)}")
 
                     for index, program in enumerate(programs):
