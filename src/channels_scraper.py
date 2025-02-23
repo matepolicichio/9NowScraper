@@ -198,7 +198,7 @@ try:
     for day_nav in day_nav_list:        
         try:
             # Extraer el enlace del día
-            day_nav_link = day_nav.find_elements(By.CSS_SELECTOR, "a")
+            day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
 
             # Obtener la fecha de cada day_nav
             day_nav_date = day_nav_link.get_attribute("data-date")
