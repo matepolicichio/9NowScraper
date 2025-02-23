@@ -254,69 +254,69 @@ try:
                     programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
                     print(f"✅ Programas extraídos: {len(programs)}")
 
-#         #             for index, program in enumerate(programs):
-#         #                 try:
-#         #                     # Extraer el título del programa
-#         #                     program_title = program.find_element(By.CSS_SELECTOR, "h4").text.strip()
+                    for index, program in enumerate(programs):
+                        try:
+                            # Extraer el título del programa
+                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text.strip()
 
-#         #                     try:
-#         #                         # Ver el detalle del programa
-#         #                         WebDriverWait(driver, 10).until(
-#         #                             EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
-#         #                         )
-#         #                         time.sleep(1)  
-#         #                         program_link = program.find_element(By.CSS_SELECTOR, "a")
-#         #                         program_link.click()
-#         #                         time.sleep(2)
-#         #                     except NoSuchElementException:
-#         #                         print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
-#         #                         continue
+                            try:
+                                # Ver el detalle del programa
+                                WebDriverWait(driver, 10).until(
+                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
+                                )
+                                time.sleep(1)  
+                                program_link = program.find_element(By.CSS_SELECTOR, "a")
+                                program_link.click()
+                                time.sleep(2)
+                            except NoSuchElementException:
+                                print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
+                                continue
 
-#         #                     print(f"✅ Cargando detalles de: {program_title}...")
+                            print(f"✅ Cargando detalles de: {program_title}...")
 
-#         #                     # if index == 0:
-#         #                     #     time.sleep(5)
-#         #                     # else:
-#         #                     #     time.sleep(3)
+                            # if index == 0:
+                            #     time.sleep(5)
+                            # else:
+                            #     time.sleep(3)
 
-#         #                     # Esperar que cargue el detalle del programa
-#         #                     program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+                            # Esperar que cargue el detalle del programa
+                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
 
-#         #                     # Extraer la hora de inicio y fin del programa
-#         #                     try:
-#         #                         program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
-#         #                     except NoSuchElementException:
-#         #                         program_time = "N/A"
+                            # Extraer la hora de inicio y fin del programa
+                            try:
+                                program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
+                            except NoSuchElementException:
+                                program_time = "N/A"
 
-#         #                     # Extraer la descripción del programa
-#         #                     try:
-#         #                         program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
-#         #                     except NoSuchElementException:
-#         #                         program_description = "N/A"
+                            # Extraer la descripción del programa
+                            try:
+                                program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
+                            except NoSuchElementException:
+                                program_description = "N/A"
 
-#         #                     # Extraer los tags del programa
-#         #                     try:
-#         #                         program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
-#         #                     except NoSuchElementException:
-#         #                         program_tags = "N/A"
+                            # Extraer los tags del programa
+                            try:
+                                program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
+                            except NoSuchElementException:
+                                program_tags = "N/A"
 
-#         #                     print(f" ✅ Titulo: {program_title}")   
-#         #                     print(f"    Hora: {program_time}")   
-#         #                     print(f"    Descripción: {program_description}")
-#         #                     print(f"    Tags: {program_tags}")
+                            print(f" ✅ Titulo: {program_title}")   
+                            print(f"    Hora: {program_time}")   
+                            print(f"    Descripción: {program_description}")
+                            print(f"    Tags: {program_tags}")
 
-#         #                     # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
-#         #                     if index == len(programs) - 1:
-#         #                         try:
-#         #                             program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
-#         #                             program_close.click()
-#         #                             print("🛑 Cierre del detalle del último programa exitoso.")
-#         #                         except NoSuchElementException:
-#         #                             print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
+                            # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
+                            if index == len(programs) - 1:
+                                try:
+                                    program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
+                                    program_close.click()
+                                    print("🛑 Cierre del detalle del último programa exitoso.")
+                                except NoSuchElementException:
+                                    print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
-#         #                 except NoSuchElementException:
-#         #                     print("⚠️ Advertencia: No se encontró información del programa.")
-#         #                     continue
+                        except NoSuchElementException:
+                            print("⚠️ Advertencia: No se encontró información del programa.")
+                            continue
 
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró información del canal.")
@@ -345,9 +345,9 @@ finally:
     #     print(f"✅ Se han guardado {len(channels_data)} canales en MongoDB.")
 
     # Finalizar el cronómetro
-    # end_time = time.time()  
-    # # Calcular la duración
-    # execution_time = end_time - start_time
-    # minutes = int(execution_time // 60)
-    # seconds = int(execution_time % 60)
-    # print(f"\n⏳ Tiempo total de ejecución: {minutes} min {seconds} sec.")
+    end_time = time.time()  
+    # Calcular la duración
+    execution_time = end_time - start_time
+    minutes = int(execution_time // 60)
+    seconds = int(execution_time % 60)
+    print(f"\n⏳ Tiempo total de ejecución: {minutes} min {seconds} sec.")
