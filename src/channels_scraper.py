@@ -15,7 +15,7 @@ chrome_options = webdriver.ChromeOptions()
 # Configuración avanzada de Chrome
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
+# chrome_options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1366,768")
 chrome_options.add_argument("--ignore-certificate-errors")
@@ -41,7 +41,7 @@ random_user_agent = random.choice(USER_AGENTS)
 chrome_options.add_argument(f"user-agent={random_user_agent}")
 
 # Eliminar el mensaje "Chrome is being controlled"
-chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 driver = None
 
