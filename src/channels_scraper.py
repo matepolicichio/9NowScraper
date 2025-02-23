@@ -195,16 +195,16 @@ try:
 #     # Iniciar el cronómetro
 #     start_time = time.time()
 
-#     # URL base
-    url_guide = "https://tvguide.9now.com.au/guide"
+    # URL guide
+    url_guide = "https://tvguide.9now.com.au/guide/yesterday"
     driver.get(url_guide)
 
     print("✅ Página cargada correctamente.")
 
-#     # # Esperar que la lista de canales cargue
-#     # WebDriverWait(driver, 15).until(
-#     #     EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
-#     # )
+    # Esperar que la lista de canales cargue
+    WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
+    )
 
 #     # # Obtener la lista de días de navegación
 #     # day_nav_list = WebDriverWait(driver, 10).until(
