@@ -236,6 +236,7 @@ try:
                     for index, program in enumerate(programs):
                         try:
                             # Extraer el título del programa
+                            WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "h4")))
                             program_title = program.find_element(By.CSS_SELECTOR, "h4").text
 
                             # Ver el detalle del programa
