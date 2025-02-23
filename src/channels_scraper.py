@@ -196,9 +196,10 @@ try:
     start_time = time.time()
 
     # URL guide
-    url_guide = "https://tvguide.9now.com.au/guide/yesterday"
+    url_guide = "https://tvguide.9now.com.au/guide/yesterday/"
     driver.get(url_guide)
-    driver.refresh()
+    driver.get(url_guide)
+    
     print("✅ Página cargada correctamente.")
 
     # Esperar que la lista de canales cargue
