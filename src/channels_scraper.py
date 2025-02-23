@@ -48,7 +48,7 @@ capabilities['goog:chromeOptions'] = {
 }
 
 # Eliminar el mensaje "Chrome is being controlled"
-# chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 driver = None
 
@@ -198,9 +198,13 @@ try:
 
     # URL guide
     url_guide = "https://tvguide.9now.com.au/guide/"
-    driver.get(url_guide)
     
-    print("✅ Página cargada correctamente.")
+    try:
+        driver.get(url_guide)
+        print("✅ Página cargada correctamente.")
+
+    except TimeoutException:
+        print("⚠️ Advertencia: La página tardó demasiado en cargar. Continuando con la ejecución...")
 
     # Esperar que la lista de canales cargue
     WebDriverWait(driver, 15).until(
