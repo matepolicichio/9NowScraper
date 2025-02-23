@@ -220,30 +220,30 @@ try:
     # Lista para almacenar los datos de todos los canales
     channels_data = []
     
-#     # # Recorrer cada canal
-#     # for day_nav in day_nav_list:        
-#     #     try:
-#     #         print("\n🔄 Procesando un nuevo día...")
+    # # Recorrer cada canal
+    for day_nav in day_nav_list:        
+        try:
+            print("\n🔄 Procesando un nuevo día...")
 
-#     #         # Subir al inicio de la página
-#     #         driver.execute_script("window.scrollTo(0, 0);")
+            # Subir al inicio de la página
+            driver.execute_script("window.scrollTo(0, 0);")
 
-#     #         # Extraer el enlace del día
-#     #         day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
+            # Extraer el enlace del día
+            day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
 
-#     #         # Obtener la fecha de cada day_nav
-#     #         day_nav_date = day_nav_link.get_attribute("data-date")
-#     #         day_nav_link.click()
-#     #         print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
+            # Obtener la fecha de cada day_nav
+            day_nav_date = day_nav_link.get_attribute("data-date")
+            day_nav_link.click()
+            print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
-#     #         # Esperar que la grilla de programas cargue
-#     #         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
+            # Esperar que la grilla de programas cargue
+            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
             
-#         #     # Obtener la filas de la grilla (canales menos el ON DEMAND)
-#         #     guide_rows = WebDriverWait(driver, 10).until(
-#         #         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".guide__grid .guide__row:not(.guide__row--sticky)"))
-#         #     )            
-#         #     print(f"🔹 Filas extraídas: {len(guide_rows)}")
+            # Obtener la filas de la grilla (canales menos el ON DEMAND)
+            guide_rows = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".guide__grid .guide__row:not(.guide__row--sticky)"))
+            )            
+            print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
 #         #     for grid_row in guide_rows:
 #         #         try:
@@ -322,12 +322,12 @@ try:
 #         #             print("⚠️ Advertencia: No se encontró información del canal.")
 #         #             continue
 
-# #         except TimeoutException:
-# #             print("⚠️ No se pudo extraer la información del canal a tiempo.")
+        except TimeoutException:
+            print("⚠️ No se pudo extraer la información del canal a tiempo.")
 
-# #         except Exception as e:
-# #             print(f"Error procesando el canal: {e}")
-# #             print(traceback.format_exc())
+        except Exception as e:
+            print(f"Error procesando el canal: {e}")
+            print(traceback.format_exc())
 
 except WebDriverException as e:
     print(f"❌ Error al iniciar WebDriver: {e}")
