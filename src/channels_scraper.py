@@ -178,91 +178,91 @@ try:
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
     # URL base
-    url_base = "https://tvguide.9now.com.au/guide/"
+    url_base = "https://tvguide.9now.com.au/guide"
     driver.get(url_base)
 
-    # Esperar que la lista de canales cargue
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "guide__grid"))
-    )
+    # # Esperar que la lista de canales cargue
+    # WebDriverWait(driver, 10).until(
+    #     EC.presence_of_element_located((By.ID, "guide__grid"))
+    # )
 
-    # Obtener la lista de canales
-    day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
+    # # Obtener la lista de canales
+    # day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
 
-    # Lista para almacenar los datos de todos los canales
-    channels_data = []
+    # # Lista para almacenar los datos de todos los canales
+    # channels_data = []
     
-    time.sleep(10)
+    time.sleep(30)
 
-    # Recorrer cada canal
-    for index, day_nav in enumerate(day_nav_list):        
-        try:
-            # Extraer el enlace del día
-            day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
+    # # Recorrer cada canal
+    # for index, day_nav in enumerate(day_nav_list):        
+    #     try:
+    #         # Extraer el enlace del día
+    #         day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
 
-            # Obtener la fecha de cada day_nav
-            day_nav_date = day_nav_link.get_attribute("data-date")
-            day_nav_link.click()
-            print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
+    #         # Obtener la fecha de cada day_nav
+    #         day_nav_date = day_nav_link.get_attribute("data-date")
+    #         day_nav_link.click()
+    #         print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
 
-            # Esperar que la grilla de canales cargue
-            guide_grid = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "guide__grid"))
-            )
+    #         # Esperar que la grilla de canales cargue
+    #         guide_grid = WebDriverWait(driver, 10).until(
+    #             EC.presence_of_element_located((By.ID, "guide__grid"))
+    #         )
             
-            time.sleep(5)
+    #         time.sleep(5)
 
-            guide_rows = guide_grid.find_elements(By.CSS_SELECTOR, ".guide__row")
+    #         guide_rows = guide_grid.find_elements(By.CSS_SELECTOR, ".guide__row")
 
-            for index, grid_row in enumerate(guide_rows):
-                try:
-                    channel_name = grid_row.get_attribute("data-channel-name")
-                    print(f"🔹 Canal: {channel_name}")
-
-
-
-                    # # Extraer el nombre del canal
-                    # channel_name = grid_row.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__name").text
-
-                    # # Extraer la lista de programas
-                    # programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__grid__row__channel__program")
-
-                    # for program in programs:
-                    #     try:
-                    #         # Extraer el título del programa
-                    #         program_title = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__title").text
-
-                    #         # Extraer la hora de inicio y fin del programa
-                    #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
-
-                    #         # Extraer la descripción del programa
-                    #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
-
-                    #         # Agregar programa a la lista
-                    #         channels_data.append({
-                    #             "date": day_nav_date,
-                    #             "channel": channel_name,
-                    #             "program": {
-                    #                 "title": program_title,
-                    #                 "time": program_time,
-                    #                 "description": program_description
-                    #             }
-                    #         })
-
-                    #     except NoSuchElementException:
-                    #         print("⚠️ Advertencia: No se encontró información del programa.")
-                    #         continue
-
-                except NoSuchElementException:
-                    print("⚠️ Advertencia: No se encontró información del canal.")
-                    continue
+    #         for index, grid_row in enumerate(guide_rows):
+    #             try:
+    #                 channel_name = grid_row.get_attribute("data-channel-name")
+    #                 print(f"🔹 Canal: {channel_name}")
 
 
-        except TimeoutException:
-            print("⚠️ No se pudo extraer la información del canal a tiempo.")
 
-        except Exception as e:
-            print(f"Error procesando el canal: {e}")
+    #                 # # Extraer el nombre del canal
+    #                 # channel_name = grid_row.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__name").text
+
+    #                 # # Extraer la lista de programas
+    #                 # programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__grid__row__channel__program")
+
+    #                 # for program in programs:
+    #                 #     try:
+    #                 #         # Extraer el título del programa
+    #                 #         program_title = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__title").text
+
+    #                 #         # Extraer la hora de inicio y fin del programa
+    #                 #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
+
+    #                 #         # Extraer la descripción del programa
+    #                 #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
+
+    #                 #         # Agregar programa a la lista
+    #                 #         channels_data.append({
+    #                 #             "date": day_nav_date,
+    #                 #             "channel": channel_name,
+    #                 #             "program": {
+    #                 #                 "title": program_title,
+    #                 #                 "time": program_time,
+    #                 #                 "description": program_description
+    #                 #             }
+    #                 #         })
+
+    #                 #     except NoSuchElementException:
+    #                 #         print("⚠️ Advertencia: No se encontró información del programa.")
+    #                 #         continue
+
+    #             except NoSuchElementException:
+    #                 print("⚠️ Advertencia: No se encontró información del canal.")
+    #                 continue
+
+
+    #     except TimeoutException:
+    #         print("⚠️ No se pudo extraer la información del canal a tiempo.")
+
+    #     except Exception as e:
+    #         print(f"Error procesando el canal: {e}")
 
 except WebDriverException as e:
     print(f"❌ Error al iniciar WebDriver: {e}")
