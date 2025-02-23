@@ -191,16 +191,13 @@ try:
     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
     print("🔄 Iniciando WebDriver...")
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
+    driver.set_page_load_timeout(10) 
 
     # Iniciar el cronómetro
     start_time = time.time()
 
-    url_home = "https://www.9now.com.au/"
-
     # URL guide
     url_guide = "https://tvguide.9now.com.au/guide/"
-    driver.get(url_home)
-    time.sleep(5)
     driver.get(url_guide)
     
     print("✅ Página cargada correctamente.")
