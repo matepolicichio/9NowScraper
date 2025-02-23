@@ -219,39 +219,37 @@ try:
                     print(f"🔹 Canal: {channel_name}")
 
                     # Extraer la lista de programas menos el ON DEMAND
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row__block--sticky)")
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row--sticky)")
 
                     for program in programs:
                         try:
-                            # Extraer el título del programa
-                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
-                            print(f"    ✅ Nombre del programa: {program_title}")
-                            
                             # Ver el detalle del programa
                             program_link = program.find_element(By.CSS_SELECTOR, "a")
                             program_link.click()
-                            time.sleep(2)
 
+                            # Extraer el título del programa
+                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
+                            
+                            # Esperar que cargue el detalle del programa
+                            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+                            time.sleep(1)
 
+                            # Extraer la hora de inicio y fin del programa
+                            program_time = driver.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
 
+                            # Extraer la descripción del programa
+                            program_description = driver.find_element(By.CSS_SELECTOR, ".show-down__description").text
 
-                    #         # Extraer la hora de inicio y fin del programa
-                    #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
+                            # Extraer los tags del programa
+                            program_tags = driver.find_elements(By.CSS_SELECTOR, ".show-down__tags")
 
-                    #         # Extraer la descripción del programa
-                    #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
+                            print(f" ✅ Titulo: {program_title}")   
+                            print(f"    Hora: {program_time}")   
+                            print(f"    Descripción: {program_description}")
+                            print(f"    Tags: {program_tags}")
 
-                    #         # Agregar programa a la lista
-                    #         channels_data.append({
-                    #             "date": day_nav_date,
-                    #             "channel": channel_name,
-                    #             "program": {
-                    #                 "title": program_title,
-                    #                 "time": program_time,
-                    #                 "description": program_description
-                    #             }
-                    #         })
-
+ 
+ 
                         except NoSuchElementException:
                             print("⚠️ Advertencia: No se encontró información del programa.")
                             continue
