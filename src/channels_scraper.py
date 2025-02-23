@@ -20,6 +20,10 @@ chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1366,768")
 chrome_options.add_argument("--ignore-certificate-errors")
 
+# Configurar el proxy SOCKS5 de Tor
+tor_proxy = "socks5://tor:9050"  # Usa el nombre del servicio Docker para Tor
+chrome_options.add_argument(f"--proxy-server={tor_proxy}")
+
 # Lista de User-Agents populares
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
