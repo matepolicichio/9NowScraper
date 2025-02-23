@@ -220,88 +220,88 @@ try:
             # Esperar que la grilla de programas cargue
             WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
             
-            # Obtener la filas de la grilla (canales menos el ON DEMAND)
-            guide_rows = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".guide__grid .guide__row:not(.guide__row--sticky)"))
-            )            
-            print(f"🔹 Filas extraídas: {len(guide_rows)}")
+        #     # Obtener la filas de la grilla (canales menos el ON DEMAND)
+        #     guide_rows = WebDriverWait(driver, 10).until(
+        #         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".guide__grid .guide__row:not(.guide__row--sticky)"))
+        #     )            
+        #     print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
-            for grid_row in guide_rows:
-                try:
-                    channel_name = grid_row.get_attribute("data-channel-name")
-                    print(f"🔹 Canal: {channel_name}")
+        #     for grid_row in guide_rows:
+        #         try:
+        #             channel_name = grid_row.get_attribute("data-channel-name")
+        #             print(f"🔹 Canal: {channel_name}")
 
-                    # Extraer la lista de programas
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
-                    print(f"✅ Programas extraídos: {len(programs)}")
+        #             # Extraer la lista de programas
+        #             programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
+        #             print(f"✅ Programas extraídos: {len(programs)}")
 
-                    for index, program in enumerate(programs):
-                        try:
-                            # Extraer el título del programa
-                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text.strip()
+        #             for index, program in enumerate(programs):
+        #                 try:
+        #                     # Extraer el título del programa
+        #                     program_title = program.find_element(By.CSS_SELECTOR, "h4").text.strip()
 
-                            try:
-                                # Ver el detalle del programa
-                                WebDriverWait(driver, 10).until(
-                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
-                                )
-                                time.sleep(1)  
-                                program_link = program.find_element(By.CSS_SELECTOR, "a")
-                                program_link.click()
-                                time.sleep(2)
-                            except NoSuchElementException:
-                                print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
-                                continue
+        #                     try:
+        #                         # Ver el detalle del programa
+        #                         WebDriverWait(driver, 10).until(
+        #                             EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
+        #                         )
+        #                         time.sleep(1)  
+        #                         program_link = program.find_element(By.CSS_SELECTOR, "a")
+        #                         program_link.click()
+        #                         time.sleep(2)
+        #                     except NoSuchElementException:
+        #                         print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
+        #                         continue
 
-                            print(f"✅ Cargando detalles de: {program_title}...")
+        #                     print(f"✅ Cargando detalles de: {program_title}...")
 
-                            # if index == 0:
-                            #     time.sleep(5)
-                            # else:
-                            #     time.sleep(3)
+        #                     # if index == 0:
+        #                     #     time.sleep(5)
+        #                     # else:
+        #                     #     time.sleep(3)
 
-                            # Esperar que cargue el detalle del programa
-                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+        #                     # Esperar que cargue el detalle del programa
+        #                     program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
 
-                            # Extraer la hora de inicio y fin del programa
-                            try:
-                                program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
-                            except NoSuchElementException:
-                                program_time = "N/A"
+        #                     # Extraer la hora de inicio y fin del programa
+        #                     try:
+        #                         program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
+        #                     except NoSuchElementException:
+        #                         program_time = "N/A"
 
-                            # Extraer la descripción del programa
-                            try:
-                                program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
-                            except NoSuchElementException:
-                                program_description = "N/A"
+        #                     # Extraer la descripción del programa
+        #                     try:
+        #                         program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
+        #                     except NoSuchElementException:
+        #                         program_description = "N/A"
 
-                            # Extraer los tags del programa
-                            try:
-                                program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
-                            except NoSuchElementException:
-                                program_tags = "N/A"
+        #                     # Extraer los tags del programa
+        #                     try:
+        #                         program_tags = program_content.find_element(By.CSS_SELECTOR, ".show-down__tags").text
+        #                     except NoSuchElementException:
+        #                         program_tags = "N/A"
 
-                            print(f" ✅ Titulo: {program_title}")   
-                            print(f"    Hora: {program_time}")   
-                            print(f"    Descripción: {program_description}")
-                            print(f"    Tags: {program_tags}")
+        #                     print(f" ✅ Titulo: {program_title}")   
+        #                     print(f"    Hora: {program_time}")   
+        #                     print(f"    Descripción: {program_description}")
+        #                     print(f"    Tags: {program_tags}")
 
-                            # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
-                            if index == len(programs) - 1:
-                                try:
-                                    program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
-                                    program_close.click()
-                                    print("🛑 Cierre del detalle del último programa exitoso.")
-                                except NoSuchElementException:
-                                    print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
+        #                     # Hacer clic en el botón de cerrar SOLO si es el último programa de la lista
+        #                     if index == len(programs) - 1:
+        #                         try:
+        #                             program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
+        #                             program_close.click()
+        #                             print("🛑 Cierre del detalle del último programa exitoso.")
+        #                         except NoSuchElementException:
+        #                             print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
-                        except NoSuchElementException:
-                            print("⚠️ Advertencia: No se encontró información del programa.")
-                            continue
+        #                 except NoSuchElementException:
+        #                     print("⚠️ Advertencia: No se encontró información del programa.")
+        #                     continue
 
-                except NoSuchElementException:
-                    print("⚠️ Advertencia: No se encontró información del canal.")
-                    continue
+        #         except NoSuchElementException:
+        #             print("⚠️ Advertencia: No se encontró información del canal.")
+        #             continue
 
         except TimeoutException:
             print("⚠️ No se pudo extraer la información del canal a tiempo.")
