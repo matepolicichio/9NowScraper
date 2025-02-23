@@ -242,8 +242,13 @@ try:
 
                             try:
                                 # Ver el detalle del programa
+                                WebDriverWait(driver, 10).until(
+                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
+                                )
+                                time.sleep(1)  
                                 program_link = program.find_element(By.CSS_SELECTOR, "a")
                                 program_link.click()
+                                time.sleep(2)
                             except NoSuchElementException:
                                 print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
                                 continue
