@@ -182,35 +182,30 @@ try:
     driver.get(url_base)
 
     # # Esperar que la lista de canales cargue
-    # WebDriverWait(driver, 10).until(
-    #     EC.presence_of_element_located((By.ID, "guide__grid"))
-    # )
+    guide_grid = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "guide__grid"))
+    )
 
-    # # Obtener la lista de canales
-    # day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
+    # Obtener la lista de canales
+    day_nav_list = driver.find_elements(By.CSS_SELECTOR, ".day-nav__list__item")
 
-    # # Lista para almacenar los datos de todos los canales
-    # channels_data = []
+    # Lista para almacenar los datos de todos los canales
+    channels_data = []
     
-    time.sleep(30)
+    time.sleep(10)
 
-    # # Recorrer cada canal
-    # for index, day_nav in enumerate(day_nav_list):        
-    #     try:
-    #         # Extraer el enlace del día
-    #         day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
+    # Recorrer cada canal
+    for index, day_nav in enumerate(day_nav_list):        
+        try:
+            # Extraer el enlace del día
+            day_nav_link = day_nav.find_element(By.CSS_SELECTOR, "a")
 
-    #         # Obtener la fecha de cada day_nav
-    #         day_nav_date = day_nav_link.get_attribute("data-date")
-    #         day_nav_link.click()
-    #         print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
-
-    #         # Esperar que la grilla de canales cargue
-    #         guide_grid = WebDriverWait(driver, 10).until(
-    #             EC.presence_of_element_located((By.ID, "guide__grid"))
-    #         )
+            # Obtener la fecha de cada day_nav
+            day_nav_date = day_nav_link.get_attribute("data-date")
+            day_nav_link.click()
+            print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
-    #         time.sleep(5)
+            time.sleep(5)
 
     #         guide_rows = guide_grid.find_elements(By.CSS_SELECTOR, ".guide__row")
 
@@ -258,11 +253,11 @@ try:
     #                 continue
 
 
-    #     except TimeoutException:
-    #         print("⚠️ No se pudo extraer la información del canal a tiempo.")
+        except TimeoutException:
+            print("⚠️ No se pudo extraer la información del canal a tiempo.")
 
-    #     except Exception as e:
-    #         print(f"Error procesando el canal: {e}")
+        except Exception as e:
+            print(f"Error procesando el canal: {e}")
 
 except WebDriverException as e:
     print(f"❌ Error al iniciar WebDriver: {e}")
