@@ -218,39 +218,43 @@ try:
                     channel_name = grid_row.get_attribute("data-channel-name")
                     print(f"🔹 Canal: {channel_name}")
 
+                    # Extraer la lista de programas menos el ON DEMAND
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row__block--sticky)")
+
+                    for program in programs:
+                        try:
+                            # Extraer el título del programa
+                            program_title = program.find_element(By.CSS_SELECTOR, "h4").text
+                            print(f"    ✅ Nombre del programa: {program_title}")
+                            
+                            # Ver el detalle del programa
+                            program_link = program.find_element(By.CSS_SELECTOR, "a")
+                            program_link.click()
+                            time.sleep(2)
 
 
-    #                 # # Extraer el nombre del canal
-    #                 # channel_name = grid_row.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__name").text
 
-    #                 # # Extraer la lista de programas
-    #                 # programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__grid__row__channel__program")
 
-    #                 # for program in programs:
-    #                 #     try:
-    #                 #         # Extraer el título del programa
-    #                 #         program_title = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__title").text
+                    #         # Extraer la hora de inicio y fin del programa
+                    #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
 
-    #                 #         # Extraer la hora de inicio y fin del programa
-    #                 #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
+                    #         # Extraer la descripción del programa
+                    #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
 
-    #                 #         # Extraer la descripción del programa
-    #                 #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
+                    #         # Agregar programa a la lista
+                    #         channels_data.append({
+                    #             "date": day_nav_date,
+                    #             "channel": channel_name,
+                    #             "program": {
+                    #                 "title": program_title,
+                    #                 "time": program_time,
+                    #                 "description": program_description
+                    #             }
+                    #         })
 
-    #                 #         # Agregar programa a la lista
-    #                 #         channels_data.append({
-    #                 #             "date": day_nav_date,
-    #                 #             "channel": channel_name,
-    #                 #             "program": {
-    #                 #                 "title": program_title,
-    #                 #                 "time": program_time,
-    #                 #                 "description": program_description
-    #                 #             }
-    #                 #         })
-
-    #                 #     except NoSuchElementException:
-    #                 #         print("⚠️ Advertencia: No se encontró información del programa.")
-    #                 #         continue
+                        except NoSuchElementException:
+                            print("⚠️ Advertencia: No se encontró información del programa.")
+                            continue
 
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró información del canal.")
