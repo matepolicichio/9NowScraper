@@ -183,7 +183,7 @@ try:
 
     # # Esperar que la lista de canales cargue
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "guide__grid"))
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid"))
     )
 
     # # Obtener la lista de canales
