@@ -52,4 +52,4 @@ USER appuser
 # EXPOSE 8000
 
 # Run the application.
-CMD python src/channels_scraper.py
+CMD python src/tvguide_scraper.py

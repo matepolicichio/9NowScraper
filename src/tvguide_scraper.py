@@ -43,7 +43,7 @@ try:
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
     # URL base
-    url_base = "https://www.9now.com.au/guide"
+    url_base = "https://tvguide.9now.com.au/guide/"
     driver.get(url_base)
 
     # Esperar que la lista de canales cargue
@@ -86,37 +86,37 @@ try:
 
 
 
-                    # Extraer el nombre del canal
-                    channel_name = grid_row.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__name").text
+                    # # Extraer el nombre del canal
+                    # channel_name = grid_row.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__name").text
 
-                    # Extraer la lista de programas
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__grid__row__channel__program")
+                    # # Extraer la lista de programas
+                    # programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__grid__row__channel__program")
 
-                    for program in programs:
-                        try:
-                            # Extraer el título del programa
-                            program_title = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__title").text
+                    # for program in programs:
+                    #     try:
+                    #         # Extraer el título del programa
+                    #         program_title = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__title").text
 
-                            # Extraer la hora de inicio y fin del programa
-                            program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
+                    #         # Extraer la hora de inicio y fin del programa
+                    #         program_time = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__time").text
 
-                            # Extraer la descripción del programa
-                            program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
+                    #         # Extraer la descripción del programa
+                    #         program_description = program.find_element(By.CSS_SELECTOR, ".guide__grid__row__channel__program__description").text
 
-                            # Agregar programa a la lista
-                            channels_data.append({
-                                "date": day_nav_date,
-                                "channel": channel_name,
-                                "program": {
-                                    "title": program_title,
-                                    "time": program_time,
-                                    "description": program_description
-                                }
-                            })
+                    #         # Agregar programa a la lista
+                    #         channels_data.append({
+                    #             "date": day_nav_date,
+                    #             "channel": channel_name,
+                    #             "program": {
+                    #                 "title": program_title,
+                    #                 "time": program_time,
+                    #                 "description": program_description
+                    #             }
+                    #         })
 
-                        except NoSuchElementException:
-                            print("⚠️ Advertencia: No se encontró información del programa.")
-                            continue
+                    #     except NoSuchElementException:
+                    #         print("⚠️ Advertencia: No se encontró información del programa.")
+                    #         continue
 
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró información del canal.")
