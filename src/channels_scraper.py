@@ -212,7 +212,7 @@ try:
             print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
             # Esperar que la grilla de programas cargue
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid")))
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__row:not(.guide__row--sticky)")))
             
             time.sleep(5)
 
