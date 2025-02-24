@@ -221,7 +221,7 @@ try:
     channels_data = []
     
     # # Recorrer cada canal
-    for day_nav in day_nav_list[1:4]:        
+    for day_nav in day_nav_list[2:4]:        
         try:
             print("\n🔄 Procesando un nuevo día...")
 
@@ -281,7 +281,7 @@ try:
                             #     time.sleep(3)
 
                             # Esperar que cargue el detalle del programa
-                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content .show-down__tags")))
+                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
 
                             # Extraer la hora de inicio y fin del programa
                             try:
