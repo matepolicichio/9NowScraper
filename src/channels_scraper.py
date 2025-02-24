@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
-# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dbconfig import guardar_channels, guardar_tv_guide
 
 # Configuración de Selenium Grid
@@ -21,31 +20,16 @@ chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1366,768")
 chrome_options.add_argument("--ignore-certificate-errors")
 
-# # Configurar el proxy SOCKS5 de Tor
-# tor_proxy = "socks5://tor:9050"  # Usa el nombre del servicio Docker para Tor
-# chrome_options.add_argument(f"--proxy-server={tor_proxy}")
-
 # Lista de User-Agents populares
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Linux; Android 13; SM-G998B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36"
-    # "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-    # "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-    # "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-    # "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/89.0",
-    # "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
 ]
 
 # Seleccionar un User-Agent aleatorio
 random_user_agent = random.choice(USER_AGENTS)
 chrome_options.add_argument(f"user-agent={random_user_agent}")
-
-# # Extra capabilities
-# capabilities = DesiredCapabilities.CHROME.copy()
-# capabilities['goog:chromeOptions'] = {
-#     'excludeSwitches': ['enable-automation'],  # Remove "Chrome is being controlled" message
-# }
 
 # Eliminar el mensaje "Chrome is being controlled"
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -75,8 +59,6 @@ try:
     # Lista para almacenar los datos de todos los canales
     channels_data = []
     
-    time.sleep(10)
-
     # Recorrer cada canal
     for index, channel in enumerate(channels):        
         try:
@@ -129,7 +111,7 @@ try:
 
                 # Extraer calidad
                 try:
-                    # Esperar hasta que el elemento esté presente en el DOM (máximo 10 segundos)
+                    # Esperar hasta que el elemento esté presente en el DOM
                     quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
                     quality = quality_element.text
                 except NoSuchElementException:
@@ -145,10 +127,10 @@ try:
                     title = "N/A"
 
                 try:
-                    # Buscar todos los <span> dentro de .channel_card__metadata__element
+                    # Buscar todos los metadata dentro de la clase .sdui_inline_text_and_icon_element
                     metadata_spans = channel_card_selected.find_elements(By.CSS_SELECTOR, ".sdui_inline_text_and_icon_element")
 
-                    # Extraer el primer y segundo elemento de los 7 existentes
+                    # Extraer el timeslot y la categoria
                     if len(metadata_spans) >= 2:
                         time_slot = metadata_spans[1].text.strip()  # Segundo elemento (índice 1)
                         category = metadata_spans[2].text.strip()  # Tercer elemento (índice 2)
@@ -159,6 +141,7 @@ try:
                     category = "N/A"
 
                 try:
+                    # Extraer la descripción del programa
                     description_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
                     description = description_element.text if description_element else "No description available"
                 except NoSuchElementException:
@@ -197,9 +180,7 @@ finally:
 
 # Channels en TV Guide
 try:
-    # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
-    # print("🔄 Iniciando WebDriver...")
-    # driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
+    # Parametro para el tiempo de carga de la pagina
     driver.set_page_load_timeout(10) 
 
     # URL guide
@@ -255,7 +236,7 @@ try:
             )            
             print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
-            # Lista de canales para este día
+            # Lista de canales para este día (Mongo)
             day_programming = {"date": day_nav_date, "channels": []}
 
             for grid_row in guide_rows:
@@ -267,7 +248,7 @@ try:
                     programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row__block--yesterday)")
                     print(f"✅ Programas extraídos: {len(programs)}")
 
-                    # Lista de programas para este canal
+                    # Lista de programas para este canal (Mongo)
                     channel_data = {"channel_name": channel_name, "programs": []}
 
                     for index, program in enumerate(programs):
@@ -322,14 +303,11 @@ try:
                                     program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
                                     program_close.click()
                                     time.sleep(1)
-                                    print("🛑 Cierre del detalle del último programa exitoso.")
-                                    
-                                    # Scroll al inicio de la página
-                                    # driver.execute_script("window.scrollTo(0, 0);")
+                                    print("🛑 Cierre del detalle del último programa exitoso.")                                    
                                 except NoSuchElementException:
                                     print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
-                            # Agregar programa al canal
+                            # Agregar programa al canal (Mongo)
                             channel_data["programs"].append({
                                 "title": program_title,
                                 "time_slot": program_time,
@@ -341,14 +319,14 @@ try:
                             print("⚠️ Advertencia: No se encontró información del programa.")
                             continue
 
-                    # Agregar canal al día
+                    # Agregar canal al día (Mongo)
                     day_programming["channels"].append(channel_data)
 
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró información del canal.")
                     continue
 
-            # Guardar el JSON en la lista final
+            # Guardar el JSON en la lista final (Mongo)
             tv_guide_data.append(day_programming)
 
             # Guardar el documento completo en MongoDB

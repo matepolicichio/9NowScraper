@@ -1,0 +1,240 @@
+[
+    {
+        "_id": {
+            "$oid": "67bbec772962a93b2d6e622c"
+        },
+        "channels": [
+            {
+                "name": "Channel 9",
+                "url": "https://www.9now.com.au/live/channel-9",
+                "logo": "https://imageresizer.static9.net.au/lx1XIWcrYZRtnfJOqvxNn9CshDI=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F09%2F630608%2F9nine-1.png",
+                "quality": "FULL HD",
+                "current_program": {
+                    "title": "Pointless",
+                    "time_slot": "2:58am - 3:58am",
+                    "category": "Game Show",
+                    "description": "Hosted by Alexander Armstrong. Four teams of two contestants attempt to find correct answers to four rounds of general knowledge questions, with the winning team eligible to compete for the show's cash jackpot."
+                }
+            },
+            {
+                "name": "Gem",
+                "url": "https://www.9now.com.au/live/gem",
+                "logo": "https://imageresizer.static9.net.au/d00389KKc5T4o5isRaDE9Pl9DWk=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F08%2F620929%2F9gem-1.png",
+                "quality": "FULL HD",
+                "current_program": {
+                    "title": "World's Greatest Transportation Marvels",
+                    "time_slot": "2:46am - 3:54am",
+                    "category": "Documentary",
+                    "description": "Ports, Canals, and Bridges examines humanity's relationship with the sea, from Porto's mediaeval wine trade to the modern Port of Antwerp and Suez Canal. It highlights Venice's canals, Amsterdam's waterways, and iconic bridges."
+                }
+            },
+            {
+                "name": "Go",
+                "url": "https://www.9now.com.au/live/go",
+                "logo": "https://imageresizer.static9.net.au/fcTwzkAJT4q81emfp2kYkgoxlDA=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F03%2F574470%2F9go.png",
+                "quality": "FULL HD",
+                "current_program": {
+                    "title": "I Dream of Jeannie",
+                    "time_slot": "3:26am - 3:57am",
+                    "category": "Comedy",
+                    "description": "Feeling sorry for Roger Jeannie makes all women who see him fall madly in love with him, including the girlfriend of a mobster."
+                }
+            },
+            {
+                "name": "Life",
+                "url": "https://www.9now.com.au/live/life",
+                "logo": "https://imageresizer.static9.net.au/wMK3kBDybfEoN2iqyDDflC91D1U=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F03%2F574472%2F9life.png",
+                "quality": "FULL HD",
+                "current_program": {
+                    "title": "Fixer To Fabulous",
+                    "time_slot": "3:02am - 4:00am",
+                    "category": "Lifestyle",
+                    "description": "A couple inherits a home that's been in their family for many years, and now they want to turn it into a place for future generations to enjoy."
+                }
+            },
+            {
+                "name": "Rush",
+                "url": "https://www.9now.com.au/live/rush",
+                "logo": "https://imageresizer.static9.net.au/5B2ZDlD8Ji6dCecGQEfwy2U2m4Y=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F03%2F574473%2F9rush.png",
+                "quality": "FULL HD",
+                "current_program": {
+                    "title": "Wheeler Dealers",
+                    "time_slot": "3:01am - 4:00am",
+                    "category": "Reality Drama",
+                    "description": "Mike finds an Alfa Romeo GTV with some fails, but nothing that he reckons Elvis can't sort. He plans to go to Italy to recreate the GTV Cup, a race for amateur owners. Can they get the GTV ready for an Italian road trip?"
+                }
+            },
+            {
+                "name": "Bbc Top Gear 247",
+                "url": "https://www.9now.com.au/live/bbc-top-gear-247",
+                "logo": "https://imageresizer.static9.net.au/anIncnAgaLBmeroZtHqBIXHpW6c=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F11%2F648316%2Fgroup-61773.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Top Gear UK",
+                    "time_slot": "3:14am - 4:13am",
+                    "category": "BBC",
+                    "description": "Richard heads for the south of France, via the Alps, in the Pagani Zonda roadster. Contains Strong Language."
+                }
+            },
+            {
+                "name": "Bbc Comedy",
+                "url": "https://www.9now.com.au/live/bbc-comedy",
+                "logo": "https://imageresizer.static9.net.au/2bl6ZyviwjpHCeVoXf8twpEVFjo=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F11%2F648314%2Fgroup-61772.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "A Bit of Fry and Laurie",
+                    "time_slot": "3:45am - 4:18am",
+                    "category": "BBC",
+                    "description": "Hugh and Stephen say a big hello to Marlon Brando and try to boost their canine viewers."
+                }
+            },
+            {
+                "name": "Bbc Food",
+                "url": "https://www.9now.com.au/live/bbc-food",
+                "logo": "https://imageresizer.static9.net.au/fsW8mo_8BA8nztvHgpodxtSmcjo=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F12%2F652517%2Fgroup-61812.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Indian Food Made Easy",
+                    "time_slot": "3:27am - 4:00am",
+                    "category": "BBC",
+                    "description": "Anjum Anand heads to Leicester to help Michael Scott cook a curry for his rugby team."
+                }
+            },
+            {
+                "name": "Lmn",
+                "url": "https://www.9now.com.au/live/lmn",
+                "logo": "https://imageresizer.static9.net.au/GfA3WNoMOfZbJOqJeq-UrX5nsdk=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F12%2F658518%2Fgroup-61484.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Fatal Fiance",
+                    "time_slot": "2:35am - 4:06am",
+                    "category": "Movies",
+                    "description": "(M) On her wedding day, Leah is kidnapped by her fiance's delusional ex-girlfriend, Faith. As Leah fights to escape, she begins to question Faith's true intentions."
+                }
+            },
+            {
+                "name": "Seinfeld",
+                "url": "https://www.9now.com.au/live/seinfeld",
+                "logo": "https://imageresizer.static9.net.au/yKlUxIHgYC5cpCmL1DYpRCQ6w4o=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585342%2Fgroup-61657.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Seinfeld",
+                    "time_slot": "3:44am - 4:08am",
+                    "category": "Comedy",
+                    "description": "(PG) Noticing that few people stop to eat at a certain small neighbourhood café, Jerry feels sorry for the owner and stops in to suggest ways of increasing business."
+                }
+            },
+            {
+                "name": "9Crime",
+                "url": "https://www.9now.com.au/live/9crime",
+                "logo": "https://imageresizer.static9.net.au/OwBWBtMcLMF5vBP09k6w4LneJQM=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585343%2Fgroup-61566.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "The Lost Women of NXIVM",
+                    "time_slot": "3:03am - 3:51am",
+                    "category": "True Crime",
+                    "description": "(MA) What happened to 4 women who were members of NXIVM who either vanished or died in mysterious circumstances?"
+                }
+            },
+            {
+                "name": "Bbc Earth",
+                "url": "https://www.9now.com.au/live/bbc-earth",
+                "logo": "https://imageresizer.static9.net.au/Rc3CC94BjHA9E9BOLrSI22N81PI=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F11%2F648311%2Fgroup-61770.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Natural World: Nature's Perfect Partners",
+                    "time_slot": "2:59am - 4:00am",
+                    "category": "BBC",
+                    "description": "Bill Bailey introduces some of the extraordinary partnerships found in nature."
+                }
+            },
+            {
+                "name": "Bbc Antiques Roadshow 247",
+                "url": "https://www.9now.com.au/live/bbc-antiques-roadshow-247",
+                "logo": "https://imageresizer.static9.net.au/zRjEXK-6iFh-92EKnAZN9rXREkA=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F11%2F648315%2Fgroup-61774.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Antiques Roadshow",
+                    "time_slot": "2:55am - 3:48am",
+                    "category": "BBC",
+                    "description": "Michael Aspel and the experts set up camp at Montacute House in Somerset."
+                }
+            },
+            {
+                "name": "Bbc Home Garden",
+                "url": "https://www.9now.com.au/live/bbc-home-garden",
+                "logo": "https://imageresizer.static9.net.au/RHsGPvwhtEktqfW-Tg4ygRMy1ug=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F11%2F648313%2Fgroup-61771.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "World's Weirdest Homes",
+                    "time_slot": "3:27am - 4:21am",
+                    "category": "BBC",
+                    "description": "Charlie explores an eco-friendly spaceship and a dystopian Disneyland."
+                }
+            },
+            {
+                "name": "60 Minutes Australia",
+                "url": "https://www.9now.com.au/live/60-minutes-australia",
+                "logo": "https://imageresizer.static9.net.au/kufGcZyXI7lNm32WrMV86xPNAnk=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585173%2Fsquircle_60mins.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "60 Minutes Australia 24/7",
+                    "time_slot": "3:43am - 3:59am",
+                    "category": "News & Current Affairs",
+                    "description": "(NA) Confessions of serial scammer Caroline Calloway."
+                }
+            },
+            {
+                "name": "The Block 247",
+                "url": "https://www.9now.com.au/live/the-block-247",
+                "logo": "https://imageresizer.static9.net.au/Mj-NaVq7oZgtzt2bf55lkLIfyuQ=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F08%2F623508%2Ftheblock_squircle.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "The Block",
+                    "time_slot": "2:25am - 4:11am",
+                    "category": "Lifestyle",
+                    "description": "(PG) All five apartments go under the hammer. The reserve prices are announced and after five intense auctions, the 2013 winner is announced."
+                }
+            },
+            {
+                "name": "Married At First Sight",
+                "url": "https://www.9now.com.au/live/married-at-first-sight",
+                "logo": "https://imageresizer.static9.net.au/OCF69HZLp4AWm0cGB8bvgx4U8mQ=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585176%2Fsquircle_mafs.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Married at First Sight",
+                    "time_slot": "2:55am - 4:06am",
+                    "category": "Reality",
+                    "description": "(M) Some couples blossom as they dig deeper during the brides' homestays, but some stumble meeting friends, family and their partner's expectations."
+                }
+            },
+            {
+                "name": "Dance Moms 247",
+                "url": "https://www.9now.com.au/live/dance-moms-247",
+                "logo": "https://imageresizer.static9.net.au/OKBRw5HKp9hAAVX3XM-A1HrVRug=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585178%2Fsquircle_dancemoms.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Dance Moms",
+                    "time_slot": "3:43am - 4:28am",
+                    "category": "Reality",
+                    "description": "(PG) The 25th anniversary of Star Power is so big there are two competition venues filled with dancers. Abby covertly enters Maddie in both competitions."
+                }
+            },
+            {
+                "name": "Pedestrian Television",
+                "url": "https://www.9now.com.au/live/pedestrian-television",
+                "logo": "https://imageresizer.static9.net.au/bkUY-nMUmtmDMf5yGiSGOPC-Bog=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F04%2F585345%2Fgroup-61560.png",
+                "quality": "N/A",
+                "current_program": {
+                    "title": "Bromans",
+                    "time_slot": "3:23am - 4:11am",
+                    "category": "Reality",
+                    "description": "(MA) It is the halfway point on the lads' quest to reach the Emperor's Games, but with two of the boys heading to prison, it is up to their girlfriends to take their place in training."
+                }
+            }
+        ],
+        "timestamp": {
+            "$date": "2025-02-24T03:50:15.513Z"
+        }
+    }
+]
