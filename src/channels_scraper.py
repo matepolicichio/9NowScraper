@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dbconfig import guardar_documento
 
 # Configuración de Selenium Grid
@@ -284,13 +284,13 @@ try:
 
                             # Extraer la hora de inicio y fin del programa
                             try:
-                                program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text.strip()
+                                program_time = program_content.find_element(By.CSS_SELECTOR, ".show-down__timeFromTo").text
                             except NoSuchElementException:
                                 program_time = "N/A"
 
                             # Extraer la descripción del programa
                             try:
-                                program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text.strip()
+                                program_description = program_content.find_element(By.CSS_SELECTOR, ".show-down__description").text
                             except NoSuchElementException:
                                 program_description = "N/A"
 
@@ -310,6 +310,7 @@ try:
                                 try:
                                     program_close = program_content.find_element(By.CSS_SELECTOR, ".show-down__close")
                                     program_close.click()
+                                    time.sleep(1)
                                     print("🛑 Cierre del detalle del último programa exitoso.")
                                 except NoSuchElementException:
                                     print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
