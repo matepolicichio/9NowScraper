@@ -262,10 +262,10 @@ try:
 
                             try:
                                 # Ver el detalle del programa
-                                program_link = WebDriverWait(driver, 10).until(
-                                    EC.element_to_be_clickable((By.CSS_SELECTOR, "a"))
+                                WebDriverWait(driver, 10).until(
+                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
                                 )                                  
-                                #program_link = program.find_element(By.CSS_SELECTOR, "a")
+                                program_link = program.find_element(By.CSS_SELECTOR, "a")
                                 program_link.click()
 
                             except NoSuchElementException:
