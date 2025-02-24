@@ -262,26 +262,21 @@ try:
 
                             try:
                                 # Ver el detalle del programa
-                                WebDriverWait(driver, 10).until(
-                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "a"))
-                                )
-                                time.sleep(1)  
-                                program_link = program.find_element(By.CSS_SELECTOR, "a")
+                                program_link = WebDriverWait(driver, 10).until(
+                                    EC.element_to_be_clickable((By.CSS_SELECTOR, "a"))
+                                )                                  
+                                #program_link = program.find_element(By.CSS_SELECTOR, "a")
                                 program_link.click()
-                                time.sleep(2)
+
                             except NoSuchElementException:
                                 print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
                                 continue
 
                             print(f"✅ Cargando detalles de: {program_title}...")
 
-                            # if index == 0:
-                            #     time.sleep(5)
-                            # else:
-                            #     time.sleep(3)
-
                             # Esperar que cargue el detalle del programa
                             program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+                            time.sleep(2)
 
                             # Extraer la hora de inicio y fin del programa
                             try:
