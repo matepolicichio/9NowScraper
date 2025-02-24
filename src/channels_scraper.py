@@ -221,7 +221,7 @@ try:
     channels_data = []
     
     # # Recorrer cada canal
-    for day_nav in day_nav_list:        
+    for day_nav in day_nav_list[1:4]:        
         try:
             print("\n🔄 Procesando un nuevo día...")
 
@@ -312,6 +312,9 @@ try:
                                     program_close.click()
                                     time.sleep(1)
                                     print("🛑 Cierre del detalle del último programa exitoso.")
+                                    
+                                    # Scroll al inicio de la página
+                                    driver.execute_script("window.scrollTo(0, 0);")
                                 except NoSuchElementException:
                                     print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
