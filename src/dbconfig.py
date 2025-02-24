@@ -19,7 +19,7 @@ def get_mongo_db():
         print(f"❌ Error conectando a MongoDB: {e}")
         return None
 
-def guardar_documento(documento):
+def guardar_channels(documento):
     """Guarda un nuevo documento en la colección 'channels', incluyendo un timestamp."""
     db = get_mongo_db()
     if db is not None:
@@ -30,6 +30,22 @@ def guardar_documento(documento):
             # Insertar el documento en la colección "channels"
             collection = db["channels"]
             result = collection.insert_one(documento)
+
+            print(f"✅ Documento insertado con ID: {result.inserted_id}")
+        except Exception as e:
+            print(f"❌ Error al guardar en MongoDB: {e}")
+
+def guardar_tv_guide(tv_guide_data):
+    """Guarda un nuevo documento en la colección 'channels', incluyendo un timestamp."""
+    db = get_mongo_db()
+    if db is not None:
+        try:
+            # Agregar timestamp al documento para diferenciar ejecuciones
+            tv_guide_data["timestamp"] = datetime.now()
+
+            # Insertar el documento en la colección "channels"
+            collection = db["tv_guide"]
+            result = collection.insert_one(tv_guide_data)
 
             print(f"✅ Documento insertado con ID: {result.inserted_id}")
         except Exception as e:

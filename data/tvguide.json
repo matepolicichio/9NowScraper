@@ -1,18 +1,39 @@
 {
-    "2025-02-22": [
-      {
-        "name": "gem",
-        "url": "https://www.9now.com.au/live/gem",
-        "logo": "https://imageresizer.static9.net.au/lx1XIWcrYZRtnfJOqvxNn9CshDI=/768x0/https%3A%2F%2Fvms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2024%2F09%2F630608%2F9nine-1.png",
-        "quality": "FULL HD",
-        "current_program": {
-          "title": "Today",
-          "time_slot": "3:29pm - 4:00pm",
-          "category": "News",
-          "description": "Join Karl Stefanovic and Sarah Abo along with the TODAY team as they bring you the latest in news, current affairs, sports, politics, entertainment, fashion, health and lifestyle."
+  "date": "2025-02-23",
+  "channels": [
+    {
+      "channel_name": "Nine",
+      "programs": [
+        {
+          "title": "Weekend Today",
+          "time_slot": "7:00AM - 10:00AM",
+          "description": "Join the Weekend Today team as they bring you the latest in news, sport, weather, politics, entertainment, fashion, health, and lifestyle.",
+          "tags": ["Current Affairs", "Australia", "2025", "NC"]
+        },
+        {
+          "title": "9News First at Five",
+          "time_slot": "5:00PM - 6:00PM",
+          "description": "Comprehensive coverage of the day's top news stories from around Australia and the world.",
+          "tags": ["News", "Australia", "2025", "G"]
         }
-      }
-    ]
-  }
-
-  
+      ]
+    },
+    {
+      "channel_name": "9HD",
+      "programs": [
+        {
+          "title": "A Current Affair",
+          "time_slot": "7:00PM - 7:30PM",
+          "description": "A deep dive into the biggest news stories affecting Australians.",
+          "tags": ["News", "Australia", "2025", "PG"]
+        },
+        {
+          "title": "Love Island",
+          "time_slot": "9:00PM - 10:30PM",
+          "description": "Reality show where singles look for love in a luxury villa.",
+          "tags": ["Reality", "Romance", "2025", "M"]
+        }
+      ]
+    }
+  ]
+}

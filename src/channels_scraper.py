@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 # from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from dbconfig import guardar_documento
+from dbconfig import guardar_channels, guardar_tv_guide
 
 # Configuración de Selenium Grid
 selenium_grid_url = "http://selenium-hub:4444/wd/hub"
@@ -52,139 +52,148 @@ chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 driver = None
 
+# Iniciar el cronómetro
+start_time = time.time()
+
 # Channels en Live TV
-# try:
+try:
+    # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
+    driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
 
-#     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
-#     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
+    # URL base
+    url_base = "https://www.9now.com.au/live"
+    driver.get(url_base)
 
-#     # URL base
-#     url_base = "https://www.9now.com.au/live"
-#     driver.get(url_base)
+    # Esperar que la lista de canales cargue
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "channels"))
+    )
 
-#     # Esperar que la lista de canales cargue
-#     WebDriverWait(driver, 10).until(
-#         EC.presence_of_element_located((By.ID, "channels"))
-#     )
+    # Obtener la lista de canales
+    channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card__list_item")
 
-#     # Obtener la lista de canales
-#     channels = driver.find_elements(By.CSS_SELECTOR, "#channels .channel_card__list_item")
-
-#     # Lista para almacenar los datos de todos los canales
-#     channels_data = []
+    # Lista para almacenar los datos de todos los canales
+    channels_data = []
     
-#     time.sleep(10)
+    time.sleep(10)
 
-#     # Recorrer cada canal
-#     for index, channel in enumerate(channels):        
-#         try:
-#             first_channel = None
+    # Recorrer cada canal
+    for index, channel in enumerate(channels):        
+        try:
+            first_channel = None
 
-#             # Verificar si el canal ya está seleccionado
-#             try:
-#                 first_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
-#                 print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
-#             except NoSuchElementException:
-#                 pass  # Si no encuentra el elemento, continúa con la búsqueda del enlace
+            # Verificar si el canal ya está seleccionado
+            try:
+                first_channel = channel.find_element(By.CSS_SELECTOR, "div.channel_card.selected")
+                print(f"🔹 Canal ya seleccionado. URL actual: {driver.current_url}")
+            except NoSuchElementException:
+                pass  # Si no encuentra el elemento, continúa con la búsqueda del enlace
             
             
-#             if not first_channel:
-#                 try:               
-#                     # Buscar el enlace del canal
-#                     link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
+            if not first_channel:
+                try:               
+                    # Buscar el enlace del canal
+                    link_element = channel.find_element(By.CSS_SELECTOR, "a.channel_card")
 
-#                     link_element.click()
-#                     print("✅ Click en el canal.")
-#                     time.sleep(3)
+                    link_element.click()
+                    print("✅ Click en el canal.")
+                    time.sleep(3)
 
-#                     print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
+                    print(f"✅ Canal cambiado. Nueva URL: {driver.current_url}")
             
-#                 except NoSuchElementException:
-#                     print("❌ No se encontró el enlace del canal.")
-#                     continue # Saltar al siguiente canal si el cambio no ocurre
+                except NoSuchElementException:
+                    print("❌ No se encontró el enlace del canal.")
+                    continue # Saltar al siguiente canal si el cambio no ocurre
 
-#                 except TimeoutException:
-#                     print("⚠️ No se detectó el cambio de canal a tiempo.")
-#                     continue # Saltar al siguiente canal si el cambio no ocurre
+                except TimeoutException:
+                    print("⚠️ No se detectó el cambio de canal a tiempo.")
+                    continue # Saltar al siguiente canal si el cambio no ocurre
 
-#             try:
-#                 # Esperar hasta que la clase `.selected` aparezca en el canal
-#                 channel_card_selected = WebDriverWait(driver, 10).until(
-#                     EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
-#                 )
+            try:
+                # Esperar hasta que la clase `.selected` aparezca en el canal
+                channel_card_selected = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".channel_card.selected"))
+                )
 
-#                 channel_url = driver.current_url
-#                 channel_name = channel_url.split("/live/")[-1] if channel_url else None
-#                 channel_name = channel_name.replace("-", " ").title() if channel_name else "N/A"
+                channel_url = driver.current_url
+                channel_name = channel_url.split("/live/")[-1] if channel_url else None
+                channel_name = channel_name.replace("-", " ").title() if channel_name else "N/A"
 
-#                 # Extraer logo
-#                 try:
-#                     logo_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo img")
-#                     logo_url = logo_element.get_attribute("src") if logo_element else None
-#                 except NoSuchElementException:
-#                     print("⚠️ Advertencia: No se encontró el logo del canal.")
-#                     logo_url = "N/A"
+                # Extraer logo
+                try:
+                    logo_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo img")
+                    logo_url = logo_element.get_attribute("src") if logo_element else None
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el logo del canal.")
+                    logo_url = "N/A"
 
-#                 # Extraer calidad
-#                 try:
-#                     # Esperar hasta que el elemento esté presente en el DOM (máximo 10 segundos)
-#                     quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
-#                     quality = quality_element.text
-#                 except NoSuchElementException:
-#                     print("⚠️ Advertencia: No se encontró el elemento de calidad en el DOM.")
-#                     quality = "N/A"
+                # Extraer calidad
+                try:
+                    # Esperar hasta que el elemento esté presente en el DOM (máximo 10 segundos)
+                    quality_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_logo__signpost_badge")
+                    quality = quality_element.text
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el elemento de calidad en el DOM.")
+                    quality = "N/A"
 
-#                 # Extraer información del programa actual
-#                 try:
-#                     title_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
-#                     title = title_element.text if title_element else "Unknown"
-#                 except NoSuchElementException:
-#                     print("⚠️ Advertencia: No se encontró el título del programa.")
-#                     title = "N/A"
+                # Extraer información del programa actual
+                try:
+                    title_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__title")
+                    title = title_element.text if title_element else "Unknown"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró el título del programa.")
+                    title = "N/A"
 
-#                 try:
-#                     # Buscar todos los <span> dentro de .channel_card__metadata__element
-#                     metadata_spans = channel_card_selected.find_elements(By.CSS_SELECTOR, ".sdui_inline_text_and_icon_element")
+                try:
+                    # Buscar todos los <span> dentro de .channel_card__metadata__element
+                    metadata_spans = channel_card_selected.find_elements(By.CSS_SELECTOR, ".sdui_inline_text_and_icon_element")
 
-#                     # Extraer el primer y segundo elemento de los 7 existentes
-#                     if len(metadata_spans) >= 2:
-#                         time_slot = metadata_spans[1].text.strip()  # Segundo elemento (índice 1)
-#                         category = metadata_spans[2].text.strip()  # Tercer elemento (índice 2)
+                    # Extraer el primer y segundo elemento de los 7 existentes
+                    if len(metadata_spans) >= 2:
+                        time_slot = metadata_spans[1].text.strip()  # Segundo elemento (índice 1)
+                        category = metadata_spans[2].text.strip()  # Tercer elemento (índice 2)
 
-#                 except NoSuchElementException:
-#                     print("⚠️ Advertencia: No se encontró la metadata del programa.")
-#                     time_slot = "N/A"
-#                     category = "N/A"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró la metadata del programa.")
+                    time_slot = "N/A"
+                    category = "N/A"
 
-#                 try:
-#                     description_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
-#                     description = description_element.text if description_element else "No description available"
-#                 except NoSuchElementException:
-#                     print("⚠️ Advertencia: No se encontró la descripción del programa.")
-#                     description = "N/A"
+                try:
+                    description_element = channel_card_selected.find_element(By.CSS_SELECTOR, ".channel_card__metadata__description p")
+                    description = description_element.text if description_element else "No description available"
+                except NoSuchElementException:
+                    print("⚠️ Advertencia: No se encontró la descripción del programa.")
+                    description = "N/A"
 
-#                 # Agregar canal a la lista
-#                 channels_data.append({
-#                     "name": channel_name,
-#                     "url": channel_url,
-#                     "logo": logo_url,
-#                     "quality": quality,
-#                     "current_program": {
-#                         "title": title,
-#                         "time_slot": time_slot,
-#                         "category": category,
-#                         "description": description
-#                     }
-#                 })
+                # Agregar canal a la lista
+                channels_data.append({
+                    "name": channel_name,
+                    "url": channel_url,
+                    "logo": logo_url,
+                    "quality": quality,
+                    "current_program": {
+                        "title": title,
+                        "time_slot": time_slot,
+                        "category": category,
+                        "description": description
+                    }
+                })
 
-#             except TimeoutException:
-#                 print("⚠️ No se pudo extraer la información del canal a tiempo.")
+            except TimeoutException:
+                print("⚠️ No se pudo extraer la información del canal a tiempo.")
 
-#         except Exception as e:
-#             print(f"Error procesando el canal: {e}")
+        except Exception as e:
+            print(f"Error procesando el canal: {e}")
 
-# except WebDriverException as e:
-#     print(f"❌ Error al iniciar WebDriver: {e}")
+except WebDriverException as e:
+    print(f"❌ Error al iniciar WebDriver: {e}")
+
+finally:
+# Guardar el documento en MongoDB
+    if channels_data:
+        documento = {"channels": channels_data}
+        guardar_channels(documento)
+        print(f"✅ Se han guardado {len(channels_data)} canales en MongoDB.")
 
 # Channels en TV Guide
 try:
@@ -192,9 +201,6 @@ try:
     print("🔄 Iniciando WebDriver...")
     driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
     driver.set_page_load_timeout(10) 
-
-    # Iniciar el cronómetro
-    start_time = time.time()
 
     # URL guide
     url_guide = "https://tvguide.9now.com.au/guide/"
@@ -218,7 +224,7 @@ try:
     print(f"🔹 Días de navegación extraídos: {len(day_nav_list)}")
 
     # Lista para almacenar los datos de todos los canales
-    channels_data = []
+    tv_guide_data = []
     
     # # Recorrer cada canal
     for day_nav in day_nav_list[2:4]:        
@@ -246,6 +252,9 @@ try:
             )            
             print(f"🔹 Filas extraídas: {len(guide_rows)}")
 
+            # Lista de canales para este día
+            day_programming = {"date": day_nav_date, "channels": []}
+
             for grid_row in guide_rows:
                 try:
                     channel_name = grid_row.get_attribute("data-channel-name")
@@ -254,6 +263,9 @@ try:
                     # Extraer la lista de programas
                     programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row__block--yesterday)")
                     print(f"✅ Programas extraídos: {len(programs)}")
+
+                    # Lista de programas para este canal
+                    channel_data = {"channel_name": channel_name, "programs": []}
 
                     for index, program in enumerate(programs):
                         try:
@@ -267,6 +279,7 @@ try:
                                 )                                  
                                 program_link = program.find_element(By.CSS_SELECTOR, "a")
                                 program_link.click()
+                                time.sleep(3)
 
                             except NoSuchElementException:
                                 print(f"⚠️ Advertencia: No se encontró enlace clickeable para '{program_title}'.")
@@ -276,7 +289,6 @@ try:
 
                             # Esperar que cargue el detalle del programa
                             program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
-                            time.sleep(2)
 
                             # Extraer la hora de inicio y fin del programa
                             try:
@@ -314,13 +326,32 @@ try:
                                 except NoSuchElementException:
                                     print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
+                            # Agregar programa al canal
+                            channel_data["programs"].append({
+                                "title": program_title,
+                                "time_slot": program_time,
+                                "description": program_description,
+                                "tags": program_tags
+                            })
+                        
                         except NoSuchElementException:
                             print("⚠️ Advertencia: No se encontró información del programa.")
                             continue
 
+                    # Agregar canal al día
+                    day_programming["channels"].append(channel_data)
+
                 except NoSuchElementException:
                     print("⚠️ Advertencia: No se encontró información del canal.")
                     continue
+
+            # Guardar el JSON en la lista final
+            tv_guide_data.append(day_programming)
+
+            # Guardar el documento completo en MongoDB
+            if tv_guide_data:
+                guardar_tv_guide(tv_guide_data)
+                print(f"✅ Se han guardado la programacion para el dia {day_nav_date} en MongoDB.")
 
         except TimeoutException:
             print("⚠️ No se pudo extraer la información del canal a tiempo.")
@@ -337,12 +368,6 @@ finally:
     if driver:
         driver.quit()
         print("✅ WebDriver cerrado correctamente.")
-
-    # # Guardar el documento completo en MongoDB
-    # if channels_data:
-    #     documento = {"channels": channels_data}
-    #     guardar_documento(documento)
-    #     print(f"✅ Se han guardado {len(channels_data)} canales en MongoDB.")
 
     # Finalizar el cronómetro
     end_time = time.time()  
