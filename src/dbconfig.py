@@ -38,15 +38,17 @@ def guardar_channels(documento):
 def guardar_tv_guide(tv_guide_data):
     """Guarda un nuevo documento en la colección 'channels', incluyendo un timestamp."""
     db = get_mongo_db()
-    if db is not None:
+    if db is not None and isinstance(tv_guide_data, list):
         try:
-            # Agregar timestamp al documento para diferenciar ejecuciones
-            tv_guide_data["timestamp"] = datetime.now()
+            document = {
+                "timestamp": datetime.now(),
+                "data": tv_guide_data  # Guardar la lista dentro de un solo documento
+            }
 
-            # Insertar el documento en la colección "channels"
+            # Insertar el documento en la colección "tv_guide"
             collection = db["tv_guide"]
-            result = collection.insert_one(tv_guide_data)
-
+            result = collection.insert_one(document)
+            
             print(f"✅ Documento insertado con ID: {result.inserted_id}")
         except Exception as e:
             print(f"❌ Error al guardar en MongoDB: {e}")

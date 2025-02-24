@@ -226,10 +226,13 @@ try:
     # Lista para almacenar los datos de todos los canales
     tv_guide_data = []
     
-    # # Recorrer cada canal
+    # Recorrer cada canal
     for day_nav in day_nav_list[2:4]:        
         try:
             print("\n🔄 Procesando un nuevo día...")
+
+            # Lista para almacenar los datos de todos los canales
+            tv_guide_data = []
 
             # Subir al inicio de la página
             driver.execute_script("window.scrollTo(0, 0);")
