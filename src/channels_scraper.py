@@ -251,7 +251,7 @@ try:
                     print(f"🔹 Canal: {channel_name}")
 
                     # Extraer la lista de programas
-                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block")
+                    programs = grid_row.find_elements(By.CSS_SELECTOR, ".guide__row__block:not(.guide__row__block--yesterday)")
                     print(f"✅ Programas extraídos: {len(programs)}")
 
                     for index, program in enumerate(programs):
@@ -314,7 +314,7 @@ try:
                                     print("🛑 Cierre del detalle del último programa exitoso.")
                                     
                                     # Scroll al inicio de la página
-                                    driver.execute_script("window.scrollTo(0, 0);")
+                                    # driver.execute_script("window.scrollTo(0, 0);")
                                 except NoSuchElementException:
                                     print("⚠️ Advertencia: No se encontró el botón para cerrar el detalle del programa.")
 
