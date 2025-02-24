@@ -234,10 +234,11 @@ try:
             # Obtener la fecha de cada day_nav
             day_nav_date = day_nav_link.get_attribute("data-date")
             day_nav_link.click()
+            time.sleep(5)
             print(f"\n\n✅ Click en el día {day_nav_date}.\nURL actual: {driver.current_url}")
             
             # Esperar que la grilla de programas cargue
-            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footer")))
+            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".guide__grid")))
             
             # Obtener la filas de la grilla (canales menos el ON DEMAND)
             guide_rows = WebDriverWait(driver, 10).until(
@@ -280,7 +281,7 @@ try:
                             #     time.sleep(3)
 
                             # Esperar que cargue el detalle del programa
-                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content")))
+                            program_content = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".show-down__content .show-down__tags")))
 
                             # Extraer la hora de inicio y fin del programa
                             try:
