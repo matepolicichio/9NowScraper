@@ -227,7 +227,7 @@ try:
     tv_guide_data = []
     
     # Recorrer cada canal
-    for day_nav in day_nav_list[2:4]:        
+    for day_nav in day_nav_list[1:4]:        
         try:
             print("\n🔄 Procesando un nuevo día...")
 
