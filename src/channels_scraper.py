@@ -198,8 +198,8 @@ finally:
 # Channels en TV Guide
 try:
     # Inicializar WebDriver correctamente (SIN `desired_capabilities`)
-    print("🔄 Iniciando WebDriver...")
-    driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
+    # print("🔄 Iniciando WebDriver...")
+    # driver = webdriver.Remote(command_executor=selenium_grid_url, options=chrome_options)
     driver.set_page_load_timeout(10) 
 
     # URL guide
